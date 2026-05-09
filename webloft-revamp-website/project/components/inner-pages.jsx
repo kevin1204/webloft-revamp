@@ -235,7 +235,7 @@ function ContactPage() {
               <div className="eyebrow" style={{ marginBottom: 24 }}><span className="dot" />Direct lines</div>
               <ContactLine label="Email" value="info@webloftstudio.com" href="mailto:info@webloftstudio.com" />
               <ContactLine label="Phone" value="+1 (647) 555-0119" href="tel:+16475550119" />
-              <ContactLine label="Toronto" value="180 Queen St W, Suite 410" />
+              <ContactLine label="London" value="695 Talbo St" />
               <ContactLine label="Hours" value="Mon–Fri · 9–6 EST" />
               <div className="hairline" style={{ margin: "32px 0" }} />
               <div className="mono" style={{ fontSize: 11, color: "var(--ink-mute)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12 }}>Booking · Q3 2026</div>

@@ -124,8 +124,8 @@ export default function StatsSection() {
     <section
       ref={ref}
       style={{
-        paddingTop: 'calc(var(--section-y) * 0.6)',
-        paddingBottom: 'calc(var(--section-y) * 1.2)',
+        paddingTop: 'calc(var(--section-y) * 0.72)',
+        paddingBottom: 'clamp(32px, 4vw, 56px)',
       }}
     >
       <div className="ds-container">

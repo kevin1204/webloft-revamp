@@ -1,266 +1,194 @@
-import Link from "next/link";
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+import { BLOG_POSTS } from '@/lib/blog-posts';
 
 export const metadata = {
-  title: "Web Design Blog Toronto | SEO Tips | Business Growth | Webloft",
-  description: "Expert web design and SEO insights for Toronto businesses. Learn how to grow your business online with actionable tips, tutorials, and digital marketing advice.",
-  keywords: "web development blog, business website tips, SEO insights, Webflow tutorials, digital marketing advice",
+  title: 'Web Design Blog | SEO, Conversion & Website Growth | Webloft Studio',
+  description:
+    'Actionable website strategy, SEO, conversion, Webflow, maintenance, and local web design insights from Webloft Studio.',
+  keywords: [
+    'web design blog',
+    'website strategy',
+    'SEO insights',
+    'conversion focused web design',
+    'Webflow tips',
+    'business website tips',
+  ],
   alternates: {
-    canonical: 'https://webloftstudio.com/blog'
-  }
+    canonical: 'https://webloftstudio.com/blog',
+  },
 };
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "Why Webflow is the Best Platform for Small & Medium Businesses",
-    excerpt: "Discover why Webflow outperforms WordPress, Wix, and Squarespace for growing businesses. Learn about speed, design flexibility, and client autonomy.",
-    slug: "why-webflow-best-platform-small-medium-businesses",
-    date: "January 15, 2025",
-    readTime: "5 min read",
-    category: "Platform",
-    featured: true,
-    image: "/hero-bg.jpg"
-  },
-  {
-    id: 2,
-    title: "The Real ROI of a Great Website: Why It's an Investment, Not an Expense",
-    excerpt: "Learn how a professionally designed website generates leads, builds trust, and delivers measurable returns on your investment.",
-    slug: "real-roi-great-website-investment-not-expense",
-    date: "January 12, 2025",
-    readTime: "6 min read",
-    category: "Business",
-    featured: true,
-    image: "/hero-bg.jpg"
-  },
-  {
-    id: 3,
-    title: "SEO & Local SEO: The Secret to Getting Found Online",
-    excerpt: "Master the fundamentals of SEO and local search optimization to attract more customers and dominate your local market.",
-    slug: "seo-local-seo-secret-getting-found-online",
-    date: "January 10, 2025",
-    readTime: "7 min read",
-    category: "SEO",
-    featured: false,
-    image: "/hero-bg.jpg"
-  },
-  {
-    id: 4,
-    title: "5 Common Website Mistakes That Could Be Costing You Clients",
-    excerpt: "Avoid these critical website design mistakes that drive customers away and learn how to convert more visitors into paying clients.",
-    slug: "5-common-website-mistakes-costing-clients",
-    date: "January 8, 2025",
-    readTime: "4 min read",
-    category: "Design",
-    featured: false,
-    image: "/hero-bg.jpg"
-  },
-  {
-    id: 5,
-    title: "How Often Should You Update Your Website? (And Why It Matters)",
-    excerpt: "Discover the importance of regular website updates and maintenance for SEO, security, and user experience.",
-    slug: "how-often-update-website-why-matters",
-    date: "January 5, 2025",
-    readTime: "5 min read",
-    category: "Maintenance",
-    featured: false,
-    image: "/hero-bg.jpg"
-  }
-];
-
+function ArrowIcon() {
+  return (
+    <svg className="ds-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3 11L11 3M11 3H4.5M11 3V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    </svg>
+  );
+}
 
 export default function Blog() {
+  const featured = BLOG_POSTS.filter((post) => post.featured);
+  const latest = [...BLOG_POSTS].sort((a, b) => Number(new Date(b.isoDate)) - Number(new Date(a.isoDate)));
+  const topPost = latest[0];
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-white">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Insights & Resources
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Actionable advice, tips, and insights to grow your business online. Expert web development and digital marketing strategies.
-            </p>
-            <Link href="/contact" className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200">
-              Get Free Consultation
-            </Link>
+    <main className="wl-blog-page">
+      <section className="wl-blog-hero">
+        <div className="ds-container">
+          <div className="wl-blog-meta-row reveal">
+            <div className="eyebrow">
+              <span className="dot" />
+              Webloft Journal
+            </div>
+            <div className="wl-blog-kicker">({String(BLOG_POSTS.length).padStart(2, '0')}) - Articles</div>
+          </div>
+
+          <div className="wl-blog-hero-grid">
+            <div className="reveal">
+              <h1 className="h-display wl-blog-title">
+                Website thinking for businesses that want{' '}
+                <span className="italic-serif" style={{ color: 'var(--accent)' }}>
+                  better leads.
+                </span>
+              </h1>
+            </div>
+            <div className="wl-blog-hero-copy reveal">
+              <p className="body-lg">
+                Practical notes on web design, SEO, conversion, Webflow, maintenance, analytics, and the decisions that make a website easier to trust and easier to act on.
+              </p>
+              <Link href="/contact" className="ds-btn ds-btn-primary">
+                Talk to us <ArrowIcon />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-
-      {/* Featured Articles */}
-      <section className="pt-8 pb-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured Articles
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our most popular and impactful articles for growing your business online.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            {blogPosts.filter(post => post.featured).map((post) => (
-              <article key={post.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
-                {/* Image Container */}
-                <div className="relative w-full h-48 overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={`${post.title} - Professional web design and development insights by Webloft Studio`}
-                    width={600}
-                    height={300}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
-                    priority={false}
-                  />
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="bg-green-600 text-white px-3 py-1 rounded-md text-sm font-medium">
-                      {post.category}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-6">
-                  {/* Meta Info */}
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <span>{post.date}</span>
-                    <span className="mx-2">•</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-green-600 transition-colors duration-200">
-                    {post.title}
-                  </h3>
-                  
-                  {/* Excerpt */}
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  
-                  {/* Read More Link */}
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="text-green-600 hover:text-green-700 font-semibold"
-                  >
-                    Read Full Article →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* All Articles Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              All Articles
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Complete collection of our web development and digital marketing insights.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogPosts.map((post) => (
-              <article key={post.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
-                {/* Image Container */}
-                <div className="relative w-full h-40 overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={`${post.title} - Professional web design and development insights by Webloft Studio`}
-                    width={400}
-                    height={200}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
-                    priority={false}
-                  />
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="bg-green-600 text-white px-2 py-1 rounded-md text-xs font-medium">
-                      {post.category}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-5">
-                  {/* Meta Info */}
-                  <div className="flex items-center text-xs text-gray-500 mb-2">
-                    <span>{post.date}</span>
-                    <span className="mx-2">•</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 hover:text-green-600 transition-colors duration-200">
-                    {post.title}
-                  </h3>
-                  
-                  {/* Excerpt */}
-                  <p className="text-gray-600 mb-3 text-sm leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  
-                  {/* Read More Link */}
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="text-green-600 hover:text-green-700 font-semibold text-sm"
-                  >
-                    Read More →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter CTA */}
-      <section className="py-16 bg-green-600">
-        <div className="max-w-4xl mx-auto text-center px-6 sm:px-8 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Stay Updated with Our Latest Insights
-          </h2>
-          <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto">
-            Get weekly tips, industry insights, and exclusive content delivered to your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 placeholder-gray-300 bg-white border border-white focus:outline-none focus:ring-2 focus:ring-white focus:border-black/70"
-            />
-            <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto text-center px-6 sm:px-8 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Ready to Transform Your Online Presence?
-          </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Let's discuss your project and create a website that drives real business results. Get a free consultation today.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
-          >
-            Get Your Free Consultation
+      <section className="wl-blog-featured-section">
+        <div className="ds-container">
+          <Link href={`/blog/${topPost.slug}`} className="wl-blog-feature-card reveal">
+            <div className="wl-blog-feature-image">
+              <Image
+                src={topPost.image}
+                alt={topPost.title}
+                fill
+                sizes="(max-width: 900px) 100vw, 48vw"
+                priority
+              />
+            </div>
+            <div className="wl-blog-feature-copy">
+              <div className="wl-blog-card-meta">
+                <span>{topPost.category}</span>
+                <span>{topPost.date}</span>
+                <span>{topPost.readTime}</span>
+              </div>
+              <h2>{topPost.title}</h2>
+              <p>{topPost.excerpt}</p>
+              <div className="wl-blog-card-link">
+                Read latest <ArrowIcon />
+              </div>
+            </div>
           </Link>
         </div>
       </section>
-    </div>
+
+      <section className="wl-blog-list-section">
+        <div className="ds-container">
+          <div className="wl-blog-section-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Featured
+              </div>
+              <h2 className="h-2">Useful, not noisy.</h2>
+            </div>
+            <p className="body-lg">
+              Start with the strategy pieces that help most businesses make better website decisions before they spend on design, SEO, or ads.
+            </p>
+          </div>
+
+          <div className="wl-blog-card-grid wl-blog-card-grid-featured">
+            {featured.map((post) => (
+              <Link href={`/blog/${post.slug}`} className="wl-blog-card ds-card reveal" key={post.slug}>
+                <div className="wl-blog-card-image">
+                  <Image src={post.image} alt={post.title} fill sizes="(max-width: 900px) 100vw, 50vw" />
+                </div>
+                <div className="wl-blog-card-body">
+                  <div className="wl-blog-card-meta">
+                    <span>{post.category}</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                  <div className="wl-blog-card-link">
+                    Read article <ArrowIcon />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="wl-blog-list-section wl-blog-all-section">
+        <div className="ds-container">
+          <div className="wl-blog-section-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                All articles
+              </div>
+              <h2 className="h-2">Field notes for better websites.</h2>
+            </div>
+            <p className="body-lg">
+              Browse the full collection of Webloft articles on design, SEO, maintenance, local search, conversion, and platform decisions.
+            </p>
+          </div>
+
+          <div className="wl-blog-card-grid">
+            {latest.map((post) => (
+              <Link href={`/blog/${post.slug}`} className="wl-blog-card ds-card reveal" key={post.slug}>
+                <div className="wl-blog-card-image">
+                  <Image src={post.image} alt={post.title} fill sizes="(max-width: 900px) 100vw, 33vw" />
+                </div>
+                <div className="wl-blog-card-body">
+                  <div className="wl-blog-card-meta">
+                    <span>{post.category}</span>
+                    <span>{post.date}</span>
+                  </div>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                  <div className="wl-blog-card-link">
+                    Read article <ArrowIcon />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="wl-blog-newsletter-section">
+        <div className="ds-container">
+          <div className="wl-blog-newsletter reveal">
+            <div>
+              <p className="eyebrow">Website growth notes</p>
+              <h2>Get practical website ideas without the noise.</h2>
+              <p>
+                Occasional notes on better service pages, stronger conversion paths, SEO foundations, and launch decisions.
+              </p>
+            </div>
+            <form className="wl-blog-newsletter-form">
+              <label htmlFor="blog-email">Email address</label>
+              <div>
+                <input id="blog-email" type="email" placeholder="you@company.com" />
+                <button type="submit">Subscribe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

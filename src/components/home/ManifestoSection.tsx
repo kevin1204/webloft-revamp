@@ -23,7 +23,13 @@ const PILLARS = [
 
 export default function ManifestoSection() {
   return (
-    <section style={{ paddingTop: 'var(--section-y)', paddingBottom: 'var(--section-y)', position: 'relative' }}>
+    <section
+      style={{
+        paddingTop: 'clamp(32px, 4vw, 56px)',
+        paddingBottom: 'calc(var(--section-y) * 0.72)',
+        position: 'relative',
+      }}
+    >
       <div className="ds-container">
 
         {/* Eyebrow row */}

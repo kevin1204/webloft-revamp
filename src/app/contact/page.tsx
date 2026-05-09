@@ -230,8 +230,8 @@ export default function ContactPage() {
                 href="mailto:info@webloftstudio.com"
               />
               <ContactLine
-                label="Toronto"
-                value="180 Queen St W, Suite 410"
+                label="London"
+                value="695 Talbot St"
               />
               <ContactLine label="Hours" value="Mon–Fri · 9–6 EST" />
               <div
