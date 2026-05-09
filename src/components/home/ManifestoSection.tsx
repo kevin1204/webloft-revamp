@@ -25,7 +25,7 @@ export default function ManifestoSection() {
   return (
     <section
       style={{
-        paddingTop: 'clamp(32px, 4vw, 56px)',
+        paddingTop: 'clamp(16px, 2vw, 28px)',
         paddingBottom: 'calc(var(--section-y) * 0.72)',
         position: 'relative',
       }}
