@@ -80,15 +80,15 @@ export default function LilaHartCaseStudyPage() {
     projectDuration: "3 weeks",
     projectImages: [
       {
-        src: "/projects/gallery/lilahart3-min.png",
+        src: "/PROJECTS/gallery/lilahart3-min.png",
         alt: "Lila Hart portfolio homepage"
       },
       {
-        src: "/projects/gallery/lilahart4-min.png",
+        src: "/PROJECTS/gallery/lilahart4-min.png",
         alt: "Portfolio gallery and project showcases"
       },
       {
-        src: "/projects/gallery/lilahart5-min.png",
+        src: "/PROJECTS/gallery/lilahart5-min.png",
         alt: "Mobile-responsive creative portfolio"
       }
     ],
@@ -100,12 +100,6 @@ export default function LilaHartCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CaseStudy {...caseStudyData} />
-        </div>
-      </div>
-    </div>
+    <CaseStudy {...caseStudyData} />
   );
 }

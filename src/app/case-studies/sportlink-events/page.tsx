@@ -80,27 +80,27 @@ export default function SportlinkCaseStudyPage() {
     projectDuration: "6 weeks",
     projectImages: [
       {
-        src: "/projects/gallery/sportlink1-min.png",
+        src: "/PROJECTS/gallery/sportlink1-min.png",
         alt: "Sportlink Events registration platform"
       },
       {
-        src: "/projects/gallery/sportlink2-min.png",
+        src: "/PROJECTS/gallery/sportlink2-min.png",
         alt: "Mobile-responsive event management"
       },
       {
-        src: "/projects/gallery/sportlink3-min.png",
+        src: "/PROJECTS/gallery/sportlink3-min.png",
         alt: "Admin dashboard and participant management"
       },
       {
-        src: "/projects/gallery/sportlink4-min.png",
+        src: "/PROJECTS/gallery/sportlink4-min.png",
         alt: "Event details and participant information"
       },
       {
-        src: "/projects/gallery/sportlink5-min.png",
+        src: "/PROJECTS/gallery/sportlink5-min.png",
         alt: "Payment processing and confirmation system"
       },
       {
-        src: "/projects/gallery/sportlink6-min.png",
+        src: "/PROJECTS/gallery/sportlink6-min.png",
         alt: "Mobile event registration interface"
       }
     ],
@@ -112,12 +112,6 @@ export default function SportlinkCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CaseStudy {...caseStudyData} />
-        </div>
-      </div>
-    </div>
+    <CaseStudy {...caseStudyData} />
   );
 }

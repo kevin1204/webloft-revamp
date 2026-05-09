@@ -1,498 +1,1111 @@
 'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import CTASection from '@/components/home/CTASection';
 
 const projects = [
   {
     id: 1,
-    title: "Amigo Contracting Services",
-    description: "A professional construction services website with lead capture optimization and mobile-first design. Features include service showcases, project galleries, and easy contact forms.",
-    image: "/PROJECTS/AMIGO CONTRACTING SERVICES.png",
-    category: "Construction",
-    technologies: ["Webflow", "CMS", "SEO"],
-    results: "+180% Lead Increase",
-    link: "https://amigocontracting.com/",
-    caseStudyLink: "/case-studies/amigo-contracting-services",
-    featured: true
+    number: '01',
+    title: 'Amigo Contracting Services',
+    description:
+      'A professional construction services website with lead capture optimization, local SEO, service showcases, and a mobile-first contact flow.',
+    image: '/PROJECTS/gallery/amigo-contracting-1-min.png',
+    category: 'Construction',
+    technologies: ['Webflow', 'CMS', 'SEO'],
+    results: '+180% lead increase',
+    timeline: '21-day launch',
+    link: 'https://amigocontracting.com/',
+    caseStudyLink: '/case-studies/amigo-contracting-services',
+    featured: true,
   },
   {
     id: 2,
-    title: "Aeries",
-    description: "A modern business website built with Webflow, featuring clean design, responsive layout, and optimized user experience for better engagement and conversions.",
-    image: "/PROJECTS/AERIES.png",
-    category: "Business",
-    technologies: ["Webflow", "Responsive Design"],
-    results: "Improved User Experience",
-    link: "https://wfm5-level-3.webflow.io/",
-    caseStudyLink: "/case-studies/aeries",
-    featured: false
+    number: '02',
+    title: 'Aeries',
+    description:
+      'A clean, responsive Webflow build with a polished content system and conversion-focused page structure for better engagement.',
+    image: '/PROJECTS/gallery/aeries-1-min.png',
+    category: 'Business',
+    technologies: ['Webflow', 'Responsive Design'],
+    results: 'Improved UX',
+    timeline: 'Mobile-first',
+    link: 'https://wfm5-level-3.webflow.io/',
+    caseStudyLink: '/case-studies/aeries',
+    featured: false,
   },
   {
     id: 3,
-    title: "Flowga Yoga Studio",
-    description: "A wellness-focused website with online booking system and class management. Designed to help yoga studios manage their classes and attract new students.",
-    image: "/PROJECTS/FLOWGA.png",
-    category: "Wellness",
-    technologies: ["Webflow", "Booking System", "CMS"],
-    results: "+300% Online Bookings",
-    link: "https://flowgav2.webflow.io/",
-    caseStudyLink: "/case-studies/flowga-yoga-studio",
-    featured: true
+    number: '03',
+    title: 'Flowga Yoga Studio',
+    description:
+      'A wellness-focused website with a premium visual system, booking-led page flow, class content, and a calmer mobile experience.',
+    image: '/PROJECTS/gallery/flowga-1-min.png',
+    category: 'Wellness',
+    technologies: ['Webflow', 'Booking System', 'CMS'],
+    results: '+300% online bookings',
+    timeline: 'Fast delivery',
+    link: 'https://flowgav2.webflow.io/',
+    caseStudyLink: '/case-studies/flowga-yoga-studio',
+    featured: true,
   },
   {
     id: 4,
-    title: "Sportlink Events",
-    description: "An event management platform with registration system and participant management. Built to handle large-scale sporting events and streamline the registration process.",
-    image: "/PROJECTS/SPORTLINK.png",
-    category: "Events",
-    technologies: ["Webflow", "Registration System", "Database"],
-    results: "500+ Participants Managed",
-    link: "https://wfm5-level-1-course-build-725271.design.webflow.com/",
-    caseStudyLink: "/case-studies/sportlink-events",
-    featured: false
+    number: '04',
+    title: 'Sportlink Events',
+    description:
+      'An event platform built to support registrations, participant information, and large-scale sporting event content.',
+    image: '/PROJECTS/gallery/sportlink1-min.png',
+    category: 'Events',
+    technologies: ['Webflow', 'Registration System', 'Database'],
+    results: '500+ participants managed',
+    timeline: 'Scalable CMS',
+    link: 'https://wfm5-level-1-course-build-725271.design.webflow.com/',
+    caseStudyLink: '/case-studies/sportlink-events',
+    featured: false,
   },
   {
     id: 5,
-    title: "Lila Hart",
-    description: "A professional portfolio website showcasing creative work and services. Features elegant design, smooth animations, and optimized performance for creative professionals.",
-    image: "/PROJECTS/LILAHART.png",
-    category: "Portfolio",
-    technologies: ["Webflow", "Animations", "Portfolio"],
-    results: "Enhanced Brand Presence",
-    link: "https://wfm5-level-1-course-build-725271.webflow.io/",
-    caseStudyLink: "/case-studies/lila-hart",
-    featured: false
-  }
+    number: '05',
+    title: 'Lila Hart',
+    description:
+      'A refined portfolio website with strong art direction, smooth motion, and a simple structure for showcasing creative work.',
+    image: '/PROJECTS/gallery/lilahart3-min.png',
+    category: 'Portfolio',
+    technologies: ['Webflow', 'Animations', 'Portfolio'],
+    results: 'Enhanced brand presence',
+    timeline: 'Editorial layout',
+    link: 'https://wfm5-level-1-course-build-725271.webflow.io/',
+    caseStudyLink: '/case-studies/lila-hart',
+    featured: false,
+  },
 ];
 
-const categories = ["All", "Construction", "Business", "Wellness", "Events", "Portfolio"];
+const categories = ['All', 'Construction', 'Business', 'Wellness', 'Events', 'Portfolio'];
 
-// Simple intersection observer hook - triggers only once
-const useIntersectionObserver = (threshold = 0.2) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+function ArrowIcon() {
+  return (
+    <svg className="ds-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3 11L11 3M11 3H4.5M11 3V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-        }
-      },
-      { threshold }
-    );
+function BrowserFrame({
+  project,
+  priority = false,
+}: {
+  project: (typeof projects)[number];
+  priority?: boolean;
+}) {
+  return (
+    <div className="projects-browser-frame">
+      <div className="projects-browser-bar">
+        <span />
+        <span />
+        <span />
+        <div>{project.title.toLowerCase().replaceAll(' ', '-')}</div>
+      </div>
+      <div
+        className="projects-browser-image"
+        style={{
+          height: 'calc(100% - 39px)',
+          minHeight: 'clamp(260px, 44vw, 360px)',
+          overflow: 'hidden',
+          position: 'relative',
+          width: '100%',
+        }}
+      >
+        <Image
+          src={project.image}
+          alt={`${project.title} website screenshot`}
+          fill
+          priority={priority}
+          sizes="(max-width: 900px) 100vw, 50vw"
+          style={{ objectFit: 'cover', objectPosition: 'top center' }}
+        />
+      </div>
+    </div>
+  );
+}
 
-    const currentRef = ref.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [threshold, isVisible]);
-
-  return [ref, isVisible] as const;
-};
-
-export default function Projects() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [allProjectsRef, allProjectsVisible] = useIntersectionObserver(0.2);
-
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+function ProjectCard({ project, index }: { project: (typeof projects)[number]; index: number }) {
+  const [hover, setHover] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Our Projects
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Take a look at some of our recent work and see how we've helped businesses like yours 
-              achieve their online goals and drive real results.
-            </p>
+    <article
+      className="projects-card ds-card reveal"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{ transitionDelay: `${Math.min(index * 0.06, 0.24)}s` }}
+    >
+      <div
+        className="projects-card-link"
+        style={{
+          color: 'inherit',
+          display: 'grid',
+          gridTemplateRows: 'auto 1fr',
+          minHeight: '100%',
+          textDecoration: 'none',
+        }}
+      >
+        <div
+          className="projects-card-media"
+          style={{
+            aspectRatio: '4 / 3',
+            contain: 'layout paint',
+            isolation: 'isolate',
+            overflow: 'hidden',
+            position: 'relative',
+            width: '100%',
+          }}
+        >
+          <Image
+            src={project.image}
+            alt={`${project.title} website screenshot`}
+            width={900}
+            height={675}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{
+              display: 'block',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'top center',
+              transform: hover ? 'scale(1.04)' : 'scale(1)',
+              transition: 'transform 0.7s var(--ease)',
+              width: '100%',
+            }}
+          />
+          <div
+            className="projects-card-shade"
+            style={{
+              background: 'linear-gradient(to bottom, transparent 54%, rgba(10, 13, 11, 0.68) 100%)',
+              inset: 0,
+              pointerEvents: 'none',
+              position: 'absolute',
+            }}
+          />
+          <div
+            className="projects-card-label"
+            style={{
+              background: 'rgba(0, 0, 0, 0.42)',
+              backdropFilter: 'blur(8px)',
+              borderRadius: 999,
+              color: 'rgba(255, 255, 255, 0.72)',
+              left: 16,
+              padding: '6px 10px',
+              position: 'absolute',
+              top: 16,
+              zIndex: 2,
+            }}
+          >
+            {project.number} / {project.category}
           </div>
         </div>
-      </section>
 
-      {/* Filter Section */}
-      <section className="py-12 bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === category
-                    ? 'bg-green-500 text-white shadow-lg'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900 hover:text-green-700 dark:hover:text-green-300'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+        <div className="projects-card-body">
+          <div>
+            <div className="projects-card-meta">{project.technologies.join(' · ')}</div>
+            <h3 className="h-3">{project.title}</h3>
+            <p className="body-sm">{project.description}</p>
           </div>
-        </div>
-      </section>
 
-      {/* Featured Projects */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-5 dark:opacity-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-green-400 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald-500 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-400 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-green-100 dark:bg-green-900/30 rounded-full text-green-700 dark:text-green-300 text-sm font-medium mb-6 animate-fade-in-up">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-              </svg>
-              Featured Work
+          <div>
+            <div className="projects-card-stats">
+              <div>
+                <strong>{project.results.split(' ')[0]}</strong>
+                <span>{project.results.split(' ').slice(1).join(' ')}</span>
+              </div>
+              <div>
+                <strong>{project.timeline.split(' ')[0]}</strong>
+                <span>{project.timeline.split(' ').slice(1).join(' ') || project.timeline}</span>
+              </div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 animate-fade-in-up stagger-1">
-              Featured 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600"> Projects</span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed animate-fade-in-up stagger-2">
-              Our most successful projects that delivered exceptional results for our clients. Each project showcases our expertise in creating high-converting websites.
+
+            <div className="projects-card-actions">
+              <Link href={project.caseStudyLink} className="projects-card-cta">
+                Read case <ArrowIcon />
+              </Link>
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="projects-card-visit"
+              >
+                Live site <ArrowIcon />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function ProjectsPage() {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const featuredProjects = useMemo(() => projects.filter((project) => project.featured), []);
+  const filteredProjects = useMemo(
+    () =>
+      selectedCategory === 'All'
+        ? projects
+        : projects.filter((project) => project.category === selectedCategory),
+    [selectedCategory],
+  );
+
+  return (
+    <>
+      <section className="projects-hero">
+        <div className="ds-container">
+          <div className="projects-hero-meta reveal">
+            <div className="eyebrow">
+              <span className="dot" />
+              Recent work
+            </div>
+            <div className="projects-index">(02) — Projects</div>
+          </div>
+
+          <div className="projects-hero-grid">
+            <div className="reveal">
+              <h1 className="h-display projects-hero-title">
+                Websites built to{' '}
+                <span className="italic-serif" style={{ color: 'var(--accent)' }}>
+                  earn
+                </span>{' '}
+                the next click.
+              </h1>
+              <p className="body-lg projects-hero-copy">
+                A focused look at recent Webloft builds across service businesses, wellness brands,
+                event platforms, and portfolio sites. Each project was shaped around trust,
+                clarity, speed, and measurable business outcomes.
+              </p>
+              <div className="projects-hero-actions">
+                <Link href="/contact" className="ds-btn ds-btn-primary">
+                  Start a project <ArrowIcon />
+                </Link>
+                <Link href="#portfolio" className="ds-btn ds-btn-ghost">
+                  Browse work <ArrowIcon />
+                </Link>
+              </div>
+            </div>
+
+            <div className="projects-hero-visual reveal">
+              <div className="projects-hero-glow" aria-hidden="true" />
+              <div className="projects-hero-back">
+                <BrowserFrame project={featuredProjects[1]} />
+              </div>
+              <div className="projects-hero-front">
+                <BrowserFrame project={featuredProjects[0]} priority />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="projects-featured">
+        <div className="ds-container">
+          <div className="projects-section-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Selected outcomes
+              </div>
+              <h2 className="h-1">
+                Case studies with{' '}
+                <span className="italic-serif" style={{ color: 'var(--accent)' }}>
+                  measurable
+                </span>{' '}
+                results.
+              </h2>
+            </div>
+            <p className="body-lg">
+              A few builds where strategy, design, copy, and implementation worked together to
+              create cleaner paths from visitor attention to qualified leads.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-16 featured-projects-grid">
-            {projects.filter(project => project.featured).map((project, index) => (
-              <div key={project.id} className="group relative featured-project-card">
-                {/* Card Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-600 rounded-3xl blur-lg opacity-0 group-hover:opacity-20 transition-all duration-700"></div>
-                
-                {/* Main Card */}
-                <div 
-                  className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-102 overflow-hidden" 
+          <div className="projects-featured-list">
+            {featuredProjects.map((project) => (
+              <Link
+                href={project.caseStudyLink}
+                key={project.id}
+                className="projects-feature-row ds-card reveal"
+              >
+                <div
+                  className="projects-feature-media"
                   style={{
-                    animationDelay: `${index * 0.1}s`,
-                    animation: 'fadeInUp 0.8s ease-out forwards',
-                    opacity: 0,
-                    transform: 'translateY(20px)',
-                    willChange: 'transform, opacity'
+                    contain: 'layout paint',
+                    isolation: 'isolate',
+                    minHeight: 'clamp(280px, 42vw, 430px)',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    width: '100%',
                   }}
                 >
-                  {/* Image Container */}
-                  <div className="relative overflow-hidden rounded-t-3xl h-64 project-image-container" style={{contain: 'layout'}}>
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} - Professional web design project by Webloft Studio showcasing ${project.category.toLowerCase()} website development and custom design solutions`}
-                      width={600}
-                      height={400}
-                      className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 project-card-image"
-                      priority={project.featured}
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                      style={{willChange: 'transform'}}
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl"></div>
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-6 left-6">
-                      <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    {/* View Project Button */}
-                    <div className="absolute bottom-6 right-6 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-0 md:translate-y-4 group-hover:translate-y-0">
-                      <a 
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-white text-green-600 px-6 py-3 rounded-full font-semibold hover:bg-green-50 transition-colors duration-300 shadow-lg flex items-center gap-2"
-                      >
-                        View Project
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                    </div>
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} featured project screenshot`}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 42vw"
+                    style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                  />
+                  <span>{project.number} / Featured</span>
+                </div>
+
+                <div className="projects-feature-content">
+                  <div>
+                    <div className="projects-card-meta">{project.category} · {project.technologies.join(' · ')}</div>
+                    <h3 className="h-2">{project.title}</h3>
+                    <p className="body">{project.description}</p>
                   </div>
-                  
-                  {/* Content */}
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-green-600 transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
-                    
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.technologies.map((tech, techIndex) => (
-                        <span 
-                          key={techIndex}
-                          className="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm font-medium"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    
-                    {/* Results */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-green-600 dark:text-green-400 font-bold text-lg">
-                          {project.results}
-                        </span>
+
+                  <div className="projects-feature-bottom">
+                    <div className="projects-feature-kpis">
+                      <div>
+                        <strong>{project.results.split(' ')[0]}</strong>
+                        <span>{project.results.split(' ').slice(1).join(' ')}</span>
                       </div>
-                      <div className="text-gray-500 dark:text-gray-400 text-sm">
-                        Featured Project
+                      <div>
+                        <strong>{project.timeline.split(' ')[0]}</strong>
+                        <span>{project.timeline.split(' ').slice(1).join(' ') || project.timeline}</span>
                       </div>
                     </div>
-                    
-                    {/* Action Buttons */}
-                    <div className="flex gap-3">
-                      <a 
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-3 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-300 text-center flex items-center justify-center gap-2"
-                      >
-                        View Project
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                      <Link 
-                        href={project.caseStudyLink}
-                        className="flex-1 bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-300 text-center flex items-center justify-center gap-2"
-                      >
-                        View Case Study
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                      </Link>
+                    <div className="projects-feature-button">
+                      View case <ArrowIcon />
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* All Projects */}
-      <section ref={allProjectsRef} className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-5 dark:opacity-10">
-          <div className="absolute top-1/4 left-0 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-indigo-600/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-gradient-to-l from-purple-400/20 to-pink-600/20 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-              Complete Portfolio
+      <section id="portfolio" className="projects-portfolio">
+        <div className="ds-container">
+          <div className="projects-filter-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Complete portfolio
+              </div>
+              <h2 className="h-2">Browse by industry.</h2>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              All 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600"> Projects</span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Explore our complete portfolio of successful web development projects across various industries and technologies.
-            </p>
+
+            <div className="projects-filters" aria-label="Project categories">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  className={selectedCategory === category ? 'is-active' : ''}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="projects-grid">
             {filteredProjects.map((project, index) => (
-              <div key={project.id} className={`group relative transition-all duration-700 ${allProjectsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{transitionDelay: allProjectsVisible ? `${index * 0.1}s` : '0ms'}}>
-                {/* Card Background Glow */}
-                <div className={`absolute inset-0 rounded-3xl blur-lg opacity-0 group-hover:opacity-20 transition-all duration-700 ${
-                  project.category === 'Construction' ? 'bg-gradient-to-r from-green-400 to-emerald-600' :
-                  project.category === 'Business' ? 'bg-gradient-to-r from-blue-400 to-indigo-600' :
-                  project.category === 'Wellness' ? 'bg-gradient-to-r from-purple-400 to-pink-600' :
-                  project.category === 'Events' ? 'bg-gradient-to-r from-orange-400 to-red-600' :
-                  'bg-gradient-to-r from-gray-400 to-gray-600'
-                }`}></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-102 overflow-hidden">
-                  {/* Image Container */}
-                  <div className="relative overflow-hidden rounded-t-3xl h-48 project-image-container">
-                    <Image
-                      src={project.image}
-                      alt={`${project.title} - Professional web design project by Webloft Studio showcasing ${project.category.toLowerCase()} website development and custom design solutions`}
-                      width={400}
-                      height={300}
-                      className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700 project-card-image"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-3xl"></div>
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold shadow-lg ${
-                        project.category === 'Construction' ? 'bg-green-500 text-white' :
-                        project.category === 'Business' ? 'bg-blue-500 text-white' :
-                        project.category === 'Wellness' ? 'bg-purple-500 text-white' :
-                        project.category === 'Events' ? 'bg-orange-500 text-white' :
-                        'bg-gray-500 text-white'
-                      }`}>
-                        {project.category}
-                      </span>
-                    </div>
-                    
-                    {/* Featured Badge */}
-                    {project.featured && (
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                          Featured
-                        </span>
-                      </div>
-                    )}
-                    
-                    {/* View Project Button */}
-                    <div className="absolute bottom-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-0 md:translate-y-2 group-hover:translate-y-0">
-                      <a 
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-white text-gray-700 px-4 py-2 rounded-full font-semibold hover:bg-gray-50 transition-colors duration-300 shadow-lg flex items-center gap-2 text-sm"
-                      >
-                        View
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-                    
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies.map((tech, techIndex) => (
-                        <span 
-                          key={techIndex}
-                          className="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full text-xs font-medium"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    
-                    {/* Results */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full animate-pulse ${
-                          project.category === 'Construction' ? 'bg-green-500' :
-                          project.category === 'Business' ? 'bg-blue-500' :
-                          project.category === 'Wellness' ? 'bg-purple-500' :
-                          project.category === 'Events' ? 'bg-orange-500' :
-                          'bg-gray-500'
-                        }`}></div>
-                        <span className={`font-bold text-sm ${
-                          project.category === 'Construction' ? 'text-green-600 dark:text-green-400' :
-                          project.category === 'Business' ? 'text-blue-600 dark:text-blue-400' :
-                          project.category === 'Wellness' ? 'text-purple-600 dark:text-purple-400' :
-                          project.category === 'Events' ? 'text-orange-600 dark:text-orange-400' :
-                          'text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {project.results}
-                        </span>
-                      </div>
-                      <div className="text-gray-400 dark:text-gray-500 text-xs">
-                        {project.category}
-                      </div>
-                    </div>
-                    
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <a 
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-300 text-center flex items-center justify-center gap-1 text-sm"
-                      >
-                        View
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                      <Link 
-                        href={project.caseStudyLink}
-                        className="flex-1 bg-green-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-300 text-center flex items-center justify-center gap-1 text-sm"
-                      >
-                        Case Study
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-500 to-emerald-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Let's work together to create a website that drives results for your business, 
-            just like we did for our clients.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/contact" 
-              className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-            >
-              Start Your Project
-            </Link>
-            <Link 
-              href="/about" 
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors"
-            >
-              Learn More About Us
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+      <CTASection />
+
+      <style jsx global>{`
+        .projects-hero {
+          padding-top: clamp(80px, 12vh, 150px);
+          padding-bottom: calc(var(--section-y) * 0.8);
+          overflow: hidden;
+        }
+
+        .projects-hero *,
+        .projects-featured *,
+        .projects-portfolio * {
+          min-width: 0;
+        }
+
+        .projects-hero img,
+        .projects-featured img,
+        .projects-portfolio img {
+          max-width: 100%;
+        }
+
+        .projects-hero a,
+        .projects-featured a,
+        .projects-portfolio a,
+        .projects-portfolio button {
+          touch-action: manipulation;
+        }
+
+        .projects-hero-meta,
+        .projects-section-head,
+        .projects-filter-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 32px;
+          margin-bottom: 64px;
+        }
+
+        .projects-index,
+        .projects-card-meta,
+        .projects-card-label,
+        .projects-feature-media span {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--ink-mute);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          overflow-wrap: anywhere;
+        }
+
+        .projects-hero-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(360px, 0.8fr);
+          gap: clamp(48px, 7vw, 96px);
+          align-items: center;
+        }
+
+        .projects-hero-title {
+          font-size: clamp(52px, 7.4vw, 132px);
+          max-width: 980px;
+          overflow-wrap: anywhere;
+        }
+
+        .projects-hero-copy {
+          max-width: 690px;
+          margin-top: 44px;
+        }
+
+        .projects-hero-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 40px;
+        }
+
+        .projects-hero-actions .ds-btn {
+          min-height: 48px;
+        }
+
+        .projects-hero-visual {
+          min-height: 560px;
+          position: relative;
+        }
+
+        .projects-hero-glow {
+          position: absolute;
+          inset: 7% -12% 8%;
+          background: radial-gradient(ellipse, color-mix(in oklch, var(--accent), transparent 82%) 0%, transparent 70%);
+          filter: blur(48px);
+          pointer-events: none;
+        }
+
+        .projects-hero-front,
+        .projects-hero-back {
+          position: absolute;
+          overflow: hidden;
+          border-radius: 12px;
+          border: 1px solid var(--line-strong);
+          box-shadow: 0 32px 80px rgba(0, 0, 0, 0.58);
+        }
+
+        .projects-hero-front {
+          z-index: 2;
+          inset: 70px 0 44px 7%;
+          transform: rotate(-2deg);
+        }
+
+        .projects-hero-back {
+          z-index: 1;
+          inset: 20px 8% 115px -4%;
+          opacity: 0.56;
+          transform: rotate(4deg);
+        }
+
+        .projects-featured,
+        .projects-portfolio {
+          padding-top: var(--section-y);
+          padding-bottom: var(--section-y);
+        }
+
+        .projects-featured {
+          background: var(--bg-elev);
+        }
+
+        .projects-section-head {
+          align-items: end;
+        }
+
+        .projects-section-head p {
+          max-width: 520px;
+          margin: 0;
+        }
+
+        .projects-section-head h2 {
+          max-width: 880px;
+          margin-top: 28px;
+        }
+
+        .projects-featured-list {
+          display: grid;
+          gap: 24px;
+        }
+
+        .projects-feature-row {
+          display: grid;
+          grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1fr);
+          overflow: hidden;
+          text-decoration: none;
+          color: inherit;
+          background: var(--bg-elev-2);
+          transform: translateZ(0);
+          transition:
+            border-color 0.3s var(--ease),
+            background 0.3s var(--ease),
+            transform 0.5s var(--ease);
+        }
+
+        .projects-feature-row:hover {
+          transform: translateY(-4px);
+        }
+
+        .projects-feature-media {
+          position: relative;
+          min-height: 430px;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        .projects-feature-media img {
+          transition: transform 0.8s var(--ease), filter 0.8s var(--ease);
+          will-change: transform;
+        }
+
+        .projects-feature-row:hover .projects-feature-media img {
+          transform: scale(1.035);
+          filter: saturate(1.08);
+        }
+
+        .projects-feature-media::after,
+        .projects-card-shade {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, transparent 54%, rgba(10, 13, 11, 0.68) 100%);
+          pointer-events: none;
+        }
+
+        .projects-feature-media span,
+        .projects-card-label {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          z-index: 2;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: rgba(0, 0, 0, 0.42);
+          color: rgba(255, 255, 255, 0.72);
+          backdrop-filter: blur(8px);
+        }
+
+        .projects-feature-content {
+          padding: clamp(32px, 4vw, 56px);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 44px;
+        }
+
+        .projects-feature-content .h-2 {
+          margin-top: 18px;
+          max-width: 720px;
+          overflow-wrap: anywhere;
+        }
+
+        .projects-feature-content p {
+          margin-top: 20px;
+          max-width: 620px;
+        }
+
+        .projects-feature-bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: end;
+          gap: 24px;
+          border-top: 1px solid var(--line);
+          padding-top: 24px;
+        }
+
+        .projects-feature-kpis,
+        .projects-card-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px 36px;
+        }
+
+        .projects-feature-kpis strong,
+        .projects-card-stats strong {
+          display: block;
+          font-family: var(--font-display);
+          font-weight: 500;
+          color: var(--accent);
+          letter-spacing: -0.02em;
+          line-height: 1;
+        }
+
+        .projects-feature-kpis strong {
+          font-size: clamp(28px, 3vw, 48px);
+        }
+
+        .projects-card-stats strong {
+          font-size: 22px;
+        }
+
+        .projects-feature-kpis span,
+        .projects-card-stats span {
+          display: block;
+          margin-top: 6px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--ink-mute);
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .projects-feature-button,
+        .projects-card-cta,
+        .projects-card-visit {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          border: 1px solid var(--line-strong);
+          border-radius: 999px;
+          color: var(--ink);
+          font-family: var(--font-mono);
+          font-size: 12px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          text-decoration: none;
+          text-align: center;
+          white-space: nowrap;
+          transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+        }
+
+        .projects-feature-button {
+          padding: 14px 20px;
+        }
+
+        .projects-feature-row:hover .projects-feature-button,
+        .projects-card:hover .projects-card-cta {
+          background: var(--accent);
+          border-color: var(--accent);
+          color: var(--accent-ink);
+        }
+
+        .projects-filter-head {
+          align-items: end;
+        }
+
+        .projects-filter-head h2 {
+          margin-top: 18px;
+        }
+
+        .projects-filters {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 8px;
+          max-width: 650px;
+        }
+
+        .projects-filters button {
+          border: 1px solid var(--line-strong);
+          border-radius: 999px;
+          background: transparent;
+          color: var(--ink-dim);
+          cursor: pointer;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          min-height: 44px;
+          padding: 0 16px;
+          text-transform: uppercase;
+          white-space: nowrap;
+          transition:
+            background 0.3s var(--ease),
+            border-color 0.3s var(--ease),
+            color 0.3s var(--ease),
+            transform 0.3s var(--ease);
+        }
+
+        .projects-filters button:hover,
+        .projects-filters button.is-active {
+          background: var(--accent);
+          border-color: var(--accent);
+          color: var(--accent-ink);
+        }
+
+        .projects-filters button:hover {
+          transform: translateY(-1px);
+        }
+
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 24px;
+        }
+
+        .projects-card {
+          overflow: hidden;
+          background: var(--bg-elev);
+          transform: translateZ(0);
+        }
+
+        .projects-card:hover {
+          transform: translateY(-4px);
+        }
+
+        .projects-card-link {
+          color: inherit;
+          display: grid;
+          grid-template-rows: auto 1fr;
+          min-height: 100%;
+          text-decoration: none;
+        }
+
+        .projects-card-media {
+          aspect-ratio: 4 / 3;
+          overflow: hidden;
+          position: relative;
+          isolation: isolate;
+        }
+
+        .projects-card-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 32px;
+          padding: 28px;
+        }
+
+        .projects-card-body .h-3 {
+          margin-top: 14px;
+          overflow-wrap: anywhere;
+        }
+
+        .projects-card-body p {
+          margin-top: 14px;
+        }
+
+        .projects-card-actions {
+          border-top: 1px solid var(--line);
+          display: flex;
+          gap: 10px;
+          justify-content: space-between;
+          margin-top: 22px;
+          padding-top: 20px;
+        }
+
+        .projects-card-cta,
+        .projects-card-visit {
+          min-height: 44px;
+          padding: 11px 14px;
+        }
+
+        .projects-card-visit {
+          color: var(--ink-dim);
+        }
+
+        .projects-browser-frame {
+          height: 100%;
+          min-height: 100%;
+          background: var(--bg-elev-2);
+        }
+
+        .projects-browser-bar {
+          align-items: center;
+          background: var(--bg-elev-2);
+          border-bottom: 1px solid var(--line);
+          display: flex;
+          gap: 7px;
+          padding: 10px 14px;
+        }
+
+        .projects-browser-bar span {
+          border-radius: 50%;
+          display: block;
+          flex-shrink: 0;
+          height: 10px;
+          width: 10px;
+        }
+
+        .projects-browser-bar span:nth-child(1) {
+          background: #ff5f57;
+        }
+
+        .projects-browser-bar span:nth-child(2) {
+          background: #ffbd2e;
+        }
+
+        .projects-browser-bar span:nth-child(3) {
+          background: #28ca41;
+        }
+
+        .projects-browser-bar div {
+          background: var(--bg);
+          border-radius: 5px;
+          color: var(--ink-mute);
+          flex: 1;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          letter-spacing: 0.04em;
+          margin-left: 8px;
+          overflow: hidden;
+          padding: 3px 10px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .projects-browser-image {
+          height: calc(100% - 39px);
+          min-height: 360px;
+          position: relative;
+        }
+
+        @media (max-width: 1100px) {
+          .projects-hero-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-hero-visual {
+            min-height: 480px;
+          }
+
+          .projects-hero-front {
+            inset: 64px 0 36px 5%;
+          }
+
+          .projects-hero-back {
+            inset: 20px 10% 100px 0;
+          }
+
+          .projects-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .projects-hero {
+            padding-bottom: calc(var(--section-y) * 0.65);
+          }
+
+          .projects-section-head h2 {
+            max-width: 760px;
+          }
+        }
+
+        @media (max-width: 900px) {
+          .projects-hero-meta,
+          .projects-section-head,
+          .projects-filter-head {
+            align-items: flex-start;
+            flex-direction: column;
+            margin-bottom: 44px;
+          }
+
+          .projects-feature-row {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-feature-media {
+            min-height: 320px;
+          }
+
+          .projects-feature-bottom {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .projects-feature-button {
+            justify-content: center;
+            width: 100%;
+          }
+
+          .projects-filters {
+            justify-content: flex-start;
+          }
+        }
+
+        @media (max-width: 680px) {
+          .projects-hero {
+            padding-top: clamp(56px, 14vw, 72px);
+          }
+
+          .projects-hero-title {
+            font-size: clamp(42px, 13vw, 76px);
+            line-height: 0.98;
+          }
+
+          .projects-hero-copy {
+            margin-top: 28px;
+          }
+
+          .projects-hero-actions {
+            margin-top: 28px;
+          }
+
+          .projects-hero-actions,
+          .projects-card-actions {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .projects-hero-actions .ds-btn,
+          .projects-card-cta,
+          .projects-card-visit {
+            justify-content: center;
+            width: 100%;
+          }
+
+          .projects-hero-visual {
+            min-height: 330px;
+          }
+
+          .projects-hero-back {
+            display: none;
+          }
+
+          .projects-hero-front {
+            inset: 0;
+            transform: none;
+          }
+
+          .projects-browser-image {
+            min-height: 286px;
+          }
+
+          .projects-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-card-body,
+          .projects-feature-content {
+            padding: 24px;
+          }
+
+          .projects-feature-media {
+            min-height: 280px;
+          }
+
+          .projects-filters {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            width: 100%;
+          }
+
+          .projects-filters button {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .projects-hero-meta,
+          .projects-section-head,
+          .projects-filter-head {
+            gap: 18px;
+            margin-bottom: 36px;
+          }
+
+          .projects-index {
+            font-size: 10px;
+          }
+
+          .projects-hero-visual {
+            min-height: 300px;
+          }
+
+          .projects-browser-bar {
+            padding: 9px 10px;
+          }
+
+          .projects-browser-bar div {
+            font-size: 9px;
+          }
+
+          .projects-browser-image {
+            min-height: 252px;
+          }
+
+          .projects-featured,
+          .projects-portfolio {
+            padding-top: calc(var(--section-y) * 0.85);
+            padding-bottom: calc(var(--section-y) * 0.85);
+          }
+
+          .projects-feature-media {
+            min-height: 250px;
+          }
+
+          .projects-card-body,
+          .projects-feature-content {
+            padding: 20px;
+          }
+
+          .projects-feature-kpis,
+          .projects-card-stats {
+            gap: 18px 26px;
+          }
+
+          .projects-card-actions {
+            gap: 8px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .projects-filters {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-card-label,
+          .projects-feature-media span {
+            left: 12px;
+            top: 12px;
+            max-width: calc(100% - 24px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .projects-feature-row,
+          .projects-card,
+          .projects-feature-media img,
+          .projects-filters button {
+            transition: none !important;
+          }
+
+          .projects-feature-row:hover,
+          .projects-card:hover,
+          .projects-filters button:hover {
+            transform: none !important;
+          }
+
+          .projects-feature-row:hover .projects-feature-media img {
+            filter: none !important;
+            transform: none !important;
+          }
+        }
+      `}</style>
+    </>
   );
 }

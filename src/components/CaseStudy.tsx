@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface CaseStudyProps {
   projectTitle: string;
@@ -38,6 +38,41 @@ interface CaseStudyProps {
   date: string;
 }
 
+function ArrowIcon() {
+  return (
+    <svg className="ds-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M3 11L11 3M11 3H4.5M11 3V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M2.5 7.2L5.6 10.3L11.5 3.7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="square" />
+    </svg>
+  );
+}
+
+function AlertIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M7 2.2V8M7 10.6V11.2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" />
+      <path d="M7 1.4L12.6 11.4H1.4L7 1.4Z" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  );
+}
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
+}
+
 export default function CaseStudy({
   projectTitle,
   clientName,
@@ -51,453 +86,1244 @@ export default function CaseStudy({
   technologies,
   projectDuration,
   projectImages,
-  ctaText = "Start Your Project",
-  ctaLink = "/contact",
+  ctaText = 'Start Your Project',
+  ctaLink = '/contact',
   featuredImage,
   category,
   date,
 }: CaseStudyProps) {
+  const galleryImages = useMemo(
+    () =>
+      projectImages.length > 0
+        ? projectImages
+        : [{ src: featuredImage, alt: `${projectTitle} featured website screenshot` }],
+    [featuredImage, projectImages, projectTitle],
+  );
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  // Handle keyboard navigation
+  const goToNextImage = useCallback(() => {
+    setLightboxImageIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+  }, [galleryImages.length]);
+
+  const goToPreviousImage = useCallback(() => {
+    setLightboxImageIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+  }, [galleryImages.length]);
+
+  const openLightbox = useCallback((index: number) => {
+    setSelectedImage(index);
+    setLightboxImageIndex(index);
+    setIsLightboxOpen(true);
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setIsLightboxOpen(false);
+  }, []);
+
   useEffect(() => {
+    if (!isLightboxOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isLightboxOpen) return;
-      
-      switch (event.key) {
-        case 'Escape':
-          setIsLightboxOpen(false);
-          break;
-        case 'ArrowLeft':
-          event.preventDefault();
-          goToPreviousImage();
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          goToNextImage();
-          break;
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goToPreviousImage();
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goToNextImage();
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isLightboxOpen, lightboxImageIndex]);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeLightbox, goToNextImage, goToPreviousImage, isLightboxOpen]);
 
-  const openLightbox = (index: number) => {
-    setLightboxImageIndex(index);
-    setIsLightboxOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  };
-
-  const closeLightbox = () => {
-    setIsLightboxOpen(false);
-    document.body.style.overflow = 'unset'; // Restore scrolling
-  };
-
-  const goToNextImage = () => {
-    setLightboxImageIndex((prev) => 
-      prev === projectImages.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const goToPreviousImage = () => {
-    setLightboxImageIndex((prev) => 
-      prev === 0 ? projectImages.length - 1 : prev - 1
-    );
-  };
+  const featuredMetrics = results.slice(0, 3);
+  const selectedGalleryImage = galleryImages[selectedImage] ?? galleryImages[0];
+  const lightboxImage = galleryImages[lightboxImageIndex] ?? galleryImages[0];
 
   return (
-    <article className="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden">
-      {/* Header Section */}
-      <div className="relative">
-        <div className="aspect-video relative overflow-hidden">
-          <Image
-            src={featuredImage}
-            alt={`${projectTitle} - ${clientCompany} project`}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-700"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-          
-          {/* Category Badge */}
-          <div className="absolute top-6 left-6">
-            <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-              {category}
-            </span>
+    <article className="wl-case">
+      <section className="wl-case-hero">
+        <div className="ds-container">
+          <div className="wl-case-meta reveal">
+            <div className="eyebrow">
+              <span className="dot" />
+              Case study
+            </div>
+            <div className="wl-case-index">{category} / {date}</div>
           </div>
 
-          {/* Project Info Overlay */}
-          <div className="absolute bottom-6 left-6 right-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              {projectTitle}
-            </h1>
-            <div className="flex items-center text-white/90">
-              <span className="font-semibold">{clientName}</span>
-              {clientTitle && (
-                <>
-                  <span className="mx-2">•</span>
-                  <span>{clientTitle}</span>
-                </>
-              )}
-              <span className="mx-2">•</span>
-              <span>{clientCompany}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+          <div className="wl-case-hero-grid">
+            <div className="reveal">
+              <h1 className="h-display wl-case-title">
+                {projectTitle.replace(' Website', '')}
+              </h1>
+              <p className="body-lg wl-case-overview">{projectOverview}</p>
 
-      {/* Content Section */}
-      <div className="p-8 md:p-12">
-        {/* Project Overview */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Project Overview
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-            {projectOverview}
-          </p>
-          
-          {/* Project Details */}
-          <div className="grid md:grid-cols-2 gap-6 mt-8">
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Project Duration</h3>
-              <p className="text-gray-600 dark:text-gray-300">{projectDuration}</p>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Completion Date</h3>
-              <p className="text-gray-600 dark:text-gray-300">{date}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Image Gallery */}
-        {projectImages.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              Project Gallery
-            </h2>
-            
-            {/* Main Image */}
-            <div 
-              className="relative aspect-video rounded-xl overflow-hidden mb-6 cursor-pointer group"
-              onClick={() => openLightbox(selectedImage)}
-            >
-              <Image
-                src={projectImages[selectedImage].src}
-                alt={projectImages[selectedImage].alt}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-                priority={false}
-              />
-              {projectImages[selectedImage].caption && (
-                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-4">
-                  <p className="text-sm">{projectImages[selectedImage].caption}</p>
-                </div>
-              )}
-              {/* Click to expand overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-3">
-                  <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                  </svg>
-                </div>
+              <div className="wl-case-actions">
+                <Link href={ctaLink} className="ds-btn ds-btn-primary">
+                  {ctaText} <ArrowIcon />
+                </Link>
+                <Link href="/projects" className="ds-btn ds-btn-ghost">
+                  All projects <ArrowIcon />
+                </Link>
               </div>
             </div>
 
-            {/* Thumbnail Gallery */}
-            {projectImages.length > 1 && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {projectImages.map((image, index) => (
+            <div className="wl-case-browser reveal">
+              <div className="wl-case-browser-bar">
+                <span />
+                <span />
+                <span />
+                <div>{clientCompany.toLowerCase().replaceAll(' ', '-')}</div>
+              </div>
+              <div className="wl-case-browser-image">
+                <Image
+                  src={featuredImage}
+                  alt={`${projectTitle} website screenshot`}
+                  width={1200}
+                  height={800}
+                  priority
+                  sizes="(max-width: 900px) 100vw, 48vw"
+                  style={{
+                    display: 'block',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'top center',
+                    width: '100%',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="wl-case-details reveal">
+            <div>
+              <span>Client</span>
+              <strong>{clientCompany}</strong>
+              <p>{clientTitle ? `${clientName}, ${clientTitle}` : clientName}</p>
+            </div>
+            <div>
+              <span>Timeline</span>
+              <strong>{projectDuration}</strong>
+              <p>Strategy, design, build, launch</p>
+            </div>
+            <div>
+              <span>Launch</span>
+              <strong>{date}</strong>
+              <p>Responsive site delivery</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wl-case-results">
+        <div className="ds-container">
+          <div className="wl-case-section-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Outcomes
+              </div>
+              <h2 className="h-1">
+                The numbers that{' '}
+                <span className="italic-serif" style={{ color: 'var(--accent)' }}>
+                  moved
+                </span>
+                .
+              </h2>
+            </div>
+            <p className="body-lg">
+              The work was measured against clear business outcomes: qualified leads,
+              engagement, conversion paths, performance, and mobile usability.
+            </p>
+          </div>
+
+          <div className="wl-case-results-grid">
+            {results.map((result, index) => (
+              <div key={`${result.metric}-${index}`} className="wl-case-result-card ds-card reveal">
+                <div className="wl-case-result-value">{result.value}</div>
+                <div className="wl-case-result-metric">{result.metric}</div>
+                <p className="body-sm">{result.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="wl-case-gallery-section">
+        <div className="ds-container">
+          <div className="wl-case-section-head reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Screens
+              </div>
+              <h2 className="h-2">Project gallery.</h2>
+            </div>
+            <p className="body-lg">
+              Website screens and responsive views from the finished build.
+            </p>
+          </div>
+
+          <div className="wl-case-gallery reveal">
+            <button
+              type="button"
+              className="wl-case-gallery-main"
+              onClick={() => openLightbox(selectedImage)}
+              aria-label={`Open ${selectedGalleryImage.alt} in gallery`}
+            >
+              <Image
+                src={selectedGalleryImage.src}
+                alt={selectedGalleryImage.alt}
+                width={1400}
+                height={900}
+                sizes="100vw"
+                style={{
+                  display: 'block',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'top center',
+                  width: '100%',
+                }}
+              />
+              <span>Open preview <ArrowIcon /></span>
+            </button>
+
+            {galleryImages.length > 1 && (
+              <div className="wl-case-thumbs" aria-label="Project screenshots">
+                {galleryImages.map((image, index) => (
                   <button
-                    key={index}
-                    onClick={() => {
-                      setSelectedImage(index);
-                      openLightbox(index);
-                    }}
-                    className={`relative aspect-video rounded-lg overflow-hidden transition-all duration-300 group ${
-                      selectedImage === index
-                        ? 'ring-2 ring-green-500 scale-105'
-                        : 'hover:scale-105 opacity-70 hover:opacity-100'
-                    }`}
+                    key={`${image.src}-${index}`}
+                    type="button"
+                    className={selectedImage === index ? 'is-active' : ''}
+                    onClick={() => setSelectedImage(index)}
+                    aria-label={`Show screenshot ${index + 1}`}
                   >
                     <Image
                       src={image.src}
                       alt={image.alt}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                      priority={false}
+                      width={360}
+                      height={220}
+                      sizes="(max-width: 768px) 33vw, 180px"
+                      style={{
+                        display: 'block',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'top center',
+                        width: '100%',
+                      }}
                     />
-                    {/* Click to expand indicator */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-full p-2">
-                        <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                        </svg>
-                      </div>
-                    </div>
                   </button>
                 ))}
               </div>
             )}
-          </section>
-        )}
-
-        {/* Challenges & Solutions */}
-        <div className="grid lg:grid-cols-2 gap-12 mb-12">
-          {/* Challenges */}
-          <section>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              Challenges Faced
-            </h2>
-            <ul className="space-y-4">
-              {challenges.map((challenge, index) => (
-                <li key={index} className="flex items-start">
-                  <div className="w-6 h-6 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-3 h-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                    </svg>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300">{challenge}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Solutions */}
-          <section>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              Solutions Implemented
-            </h2>
-            <ul className="space-y-4">
-              {solutions.map((solution, index) => (
-                <li key={index} className="flex items-start">
-                  <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300">{solution}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
+          </div>
         </div>
+      </section>
 
-        {/* Results & Metrics */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Results & Impact
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {results.map((result, index) => (
-              <div key={index} className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-xl border border-green-200 dark:border-green-800">
-                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-                  {result.value}
-                </div>
-                <div className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {result.metric}
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  {result.description}
-                </p>
+      <section className="wl-case-narrative">
+        <div className="ds-container">
+          <div className="wl-case-two-col">
+            <div className="wl-case-list-card ds-card reveal">
+              <div className="eyebrow">
+                <span className="dot" />
+                Challenges
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Technologies Used */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Technologies Used
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {technologies.map((tech, index) => (
-              <span
-                key={index}
-                className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-medium hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-200"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Client Testimonial */}
-        <section className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
-            Client Testimonial
-          </h2>
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-8 rounded-2xl border border-green-200 dark:border-green-800">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 mr-6">
-                {testimonial.avatar ? (
-                  <Image
-                    src={testimonial.avatar}
-                    alt={testimonial.author}
-                    width={80}
-                    height={80}
-                    className="w-20 h-20 rounded-full object-cover"
-                    loading="lazy"
-                    priority={false}
-                  />
-                ) : (
-                  <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">
-                      {testimonial.author.charAt(0)}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="flex-1">
-                <blockquote className="text-lg text-gray-700 dark:text-gray-300 italic mb-4">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div className="flex items-center">
-                  <div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
-                      {testimonial.author}
-                    </div>
-                    <div className="text-gray-600 dark:text-gray-400">
-                      {testimonial.title} at {testimonial.company}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <h2 className="h-2">What had to change.</h2>
+              <ul>
+                {challenges.map((challenge, index) => (
+                  <li key={`${challenge}-${index}`}>
+                    <span><AlertIcon /></span>
+                    <p>{challenge}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        </section>
 
-        {/* Call to Action */}
-        <section className="text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's discuss how we can help your business achieve similar results with a professional, high-performing website.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href={ctaLink}
-              className="bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 text-center"
-            >
-              {ctaText}
-            </Link>
-            <Link
-              href="/projects"
-              className="bg-white dark:bg-gray-800 text-green-600 border border-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200 text-center"
-            >
-              View More Projects
-            </Link>
-          </div>
-        </section>
-
-        {/* Social Sharing */}
-        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Share this case study
-            </div>
-            <div className="flex space-x-4">
-              <button className="text-gray-400 hover:text-green-600 transition-colors duration-200">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                </svg>
-              </button>
-              <button className="text-gray-400 hover:text-green-600 transition-colors duration-200">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </button>
-              <button className="text-gray-400 hover:text-green-600 transition-colors duration-200">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
-                </svg>
-              </button>
+            <div className="wl-case-list-card wl-case-list-card-accent ds-card reveal">
+              <div className="eyebrow">
+                <span className="dot" />
+                Solutions
+              </div>
+              <h2 className="h-2">How we solved it.</h2>
+              <ul>
+                {solutions.map((solution, index) => (
+                  <li key={`${solution}-${index}`}>
+                    <span><CheckIcon /></span>
+                    <p>{solution}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Lightbox Modal */}
+      <section className="wl-case-stack">
+        <div className="ds-container">
+          <div className="wl-case-stack-grid">
+            <div className="wl-case-tech reveal">
+              <div className="eyebrow">
+                <span className="dot" />
+                Stack
+              </div>
+              <h2 className="h-2">Tools and systems.</h2>
+              <div className="wl-case-tech-list">
+                {technologies.map((tech) => (
+                  <span key={tech}>{tech}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="wl-case-testimonial ds-card reveal">
+              <div className="wl-case-quote-mark">&ldquo;</div>
+              <blockquote>{testimonial.quote}</blockquote>
+              <div className="wl-case-author">
+                <div>{getInitials(testimonial.author)}</div>
+                <span>
+                  <strong>{testimonial.author}</strong>
+                  {testimonial.title} at {testimonial.company}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wl-case-final-cta">
+        <div className="ds-container">
+          <div className="wl-case-cta-card reveal">
+            <div>
+              <div className="eyebrow">
+                <span className="dot" />
+                Next project
+              </div>
+              <h2 className="h-1">
+                Want results like{' '}
+                <span className="italic-serif">{featuredMetrics[0]?.value ?? 'this'}</span>
+                ?
+              </h2>
+            </div>
+            <div>
+              <p>
+                Let&apos;s map the strategy, design the experience, and build a website that gives
+                visitors a clear reason to act.
+              </p>
+              <div className="wl-case-cta-actions">
+                <Link href={ctaLink}>{ctaText} <ArrowIcon /></Link>
+                <Link href="/projects">View more work <ArrowIcon /></Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {isLightboxOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          {/* Modal Content */}
-          <div 
-            className="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Previous Button */}
-            {projectImages.length > 1 && (
+        <div className="wl-case-lightbox" onClick={closeLightbox} role="dialog" aria-modal="true">
+          <div className="wl-case-lightbox-inner" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="wl-case-lightbox-close"
+              onClick={closeLightbox}
+              aria-label="Close gallery"
+            >
+              Close
+            </button>
+
+            {galleryImages.length > 1 && (
               <button
+                type="button"
+                className="wl-case-lightbox-nav wl-case-lightbox-prev"
                 onClick={goToPreviousImage}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 transition-colors duration-200"
+                aria-label="Previous image"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                Prev
               </button>
             )}
 
-            {/* Next Button */}
-            {projectImages.length > 1 && (
+            <Image
+              src={lightboxImage.src}
+              alt={lightboxImage.alt}
+              width={1600}
+              height={1000}
+              priority
+              style={{
+                display: 'block',
+                height: 'auto',
+                maxHeight: '82vh',
+                maxWidth: '100%',
+                objectFit: 'contain',
+                width: 'auto',
+              }}
+            />
+
+            {galleryImages.length > 1 && (
               <button
+                type="button"
+                className="wl-case-lightbox-nav wl-case-lightbox-next"
                 onClick={goToNextImage}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 transition-colors duration-200"
+                aria-label="Next image"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Next
               </button>
             )}
 
-            {/* Image Container with Close Button */}
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div className="relative max-w-full max-h-full">
-                {/* Close Button positioned directly on the image */}
-                <button
-                  onClick={closeLightbox}
-                  className="absolute top-2 right-2 z-30 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors duration-200"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                <Image
-                  src={projectImages[lightboxImageIndex].src}
-                  alt={projectImages[lightboxImageIndex].alt}
-                  width={1200}
-                  height={800}
-                  className="max-w-full max-h-full object-contain rounded-lg"
-                  priority={true}
-                />
-              </div>
+            <div className="wl-case-lightbox-caption">
+              <span>{lightboxImageIndex + 1} / {galleryImages.length}</span>
+              {lightboxImage.caption || lightboxImage.alt}
             </div>
-
-            {/* Image Counter */}
-            {projectImages.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/20 text-white px-4 py-2 rounded-full text-sm">
-                {lightboxImageIndex + 1} / {projectImages.length}
-              </div>
-            )}
-
-            {/* Caption */}
-            {projectImages[lightboxImageIndex].caption && (
-              <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-lg text-sm max-w-md text-center">
-                {projectImages[lightboxImageIndex].caption}
-              </div>
-            )}
           </div>
         </div>
       )}
+
+      <style jsx global>{`
+        .wl-case,
+        .wl-case * {
+          min-width: 0;
+        }
+
+        .wl-case {
+          background: var(--bg);
+          color: var(--ink);
+          overflow: hidden;
+        }
+
+        .wl-case img {
+          max-width: 100%;
+        }
+
+        .wl-case a,
+        .wl-case button {
+          touch-action: manipulation;
+        }
+
+        .wl-case-hero {
+          padding-top: clamp(80px, 12vh, 150px);
+          padding-bottom: calc(var(--section-y) * 0.8);
+        }
+
+        .wl-case-meta,
+        .wl-case-section-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 32px;
+          margin-bottom: 64px;
+        }
+
+        .wl-case-index,
+        .wl-case-result-metric,
+        .wl-case-lightbox-caption span {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--ink-mute);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-hero-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.85fr);
+          gap: clamp(48px, 7vw, 96px);
+          align-items: center;
+        }
+
+        .wl-case-title {
+          font-size: clamp(52px, 7vw, 128px);
+          max-width: 1050px;
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-overview {
+          max-width: 740px;
+          margin-top: 40px;
+        }
+
+        .wl-case-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 40px;
+        }
+
+        .wl-case-actions .ds-btn {
+          min-height: 48px;
+        }
+
+        .wl-case-browser {
+          overflow: hidden;
+          border-radius: 12px;
+          border: 1px solid var(--line-strong);
+          background: var(--bg-elev-2);
+          box-shadow: 0 32px 80px rgba(0, 0, 0, 0.58);
+          transform: rotate(-1.5deg);
+          transition: transform 0.6s var(--ease), border-color 0.3s var(--ease);
+        }
+
+        .wl-case-browser:hover {
+          border-color: color-mix(in oklch, var(--accent), var(--line-strong) 55%);
+          transform: rotate(0deg) translateY(-4px);
+        }
+
+        .wl-case-browser-bar {
+          align-items: center;
+          background: var(--bg-elev-2);
+          border-bottom: 1px solid var(--line);
+          display: flex;
+          gap: 7px;
+          padding: 10px 14px;
+        }
+
+        .wl-case-browser-bar span {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+
+        .wl-case-browser-bar span:nth-child(1) { background: #ff5f57; }
+        .wl-case-browser-bar span:nth-child(2) { background: #ffbd2e; }
+        .wl-case-browser-bar span:nth-child(3) { background: #28ca41; }
+
+        .wl-case-browser-bar div {
+          flex: 1;
+          margin-left: 8px;
+          background: var(--bg);
+          border-radius: 5px;
+          padding: 3px 10px;
+          font-family: var(--font-mono);
+          font-size: 10px;
+          color: var(--ink-mute);
+          letter-spacing: 0.04em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .wl-case-browser-image {
+          aspect-ratio: 16 / 11;
+          overflow: hidden;
+          contain: layout paint;
+        }
+
+        .wl-case-details {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          margin-top: clamp(56px, 7vw, 96px);
+          border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
+        }
+
+        .wl-case-details > div {
+          padding: 28px;
+          border-right: 1px solid var(--line);
+        }
+
+        .wl-case-details > div:last-child {
+          border-right: 0;
+        }
+
+        .wl-case-details span {
+          display: block;
+          margin-bottom: 12px;
+          font-family: var(--font-mono);
+          font-size: 11px;
+          color: var(--ink-mute);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .wl-case-details strong {
+          display: block;
+          font-family: var(--font-display);
+          font-size: clamp(24px, 2.4vw, 38px);
+          font-weight: 500;
+          letter-spacing: -0.03em;
+          color: var(--ink);
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-details p {
+          margin-top: 10px;
+          color: var(--ink-dim);
+          font-size: 14px;
+          line-height: 1.55;
+        }
+
+        .wl-case-results,
+        .wl-case-gallery-section,
+        .wl-case-narrative,
+        .wl-case-stack,
+        .wl-case-final-cta {
+          padding-top: var(--section-y);
+          padding-bottom: var(--section-y);
+        }
+
+        .wl-case-results {
+          background: var(--bg-elev);
+        }
+
+        .wl-case-section-head {
+          align-items: end;
+        }
+
+        .wl-case-section-head h2 {
+          margin-top: 24px;
+          max-width: 850px;
+        }
+
+        .wl-case-section-head p {
+          max-width: 540px;
+          margin: 0;
+        }
+
+        .wl-case-results-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+        }
+
+        .wl-case-result-card {
+          padding: 28px;
+          min-height: 240px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          transition: transform 0.45s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+        }
+
+        .wl-case-result-card:hover {
+          transform: translateY(-4px);
+          border-color: var(--line-strong);
+          background: var(--bg-elev-2);
+        }
+
+        .wl-case-result-value {
+          font-family: var(--font-display);
+          font-size: clamp(42px, 5vw, 82px);
+          line-height: 0.95;
+          letter-spacing: -0.05em;
+          color: var(--accent);
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-result-metric {
+          margin-top: 24px;
+          color: var(--ink);
+        }
+
+        .wl-case-result-card p {
+          margin-top: 14px;
+        }
+
+        .wl-case-gallery {
+          display: grid;
+          gap: 20px;
+        }
+
+        .wl-case-gallery-main {
+          position: relative;
+          display: block;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          min-height: 360px;
+          overflow: hidden;
+          border: 1px solid var(--line);
+          border-radius: var(--r-lg);
+          background: var(--bg-elev);
+          cursor: pointer;
+          contain: layout paint;
+          padding: 0;
+        }
+
+        .wl-case-gallery-main img {
+          transition: transform 0.8s var(--ease), filter 0.8s var(--ease);
+        }
+
+        .wl-case-gallery-main:hover img {
+          transform: scale(1.035);
+          filter: saturate(1.08);
+        }
+
+        .wl-case-gallery-main > span {
+          position: absolute;
+          right: 20px;
+          bottom: 20px;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 18px;
+          border-radius: 999px;
+          background: rgba(0, 0, 0, 0.55);
+          color: var(--ink);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          backdrop-filter: blur(8px);
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .wl-case-thumbs {
+          display: grid;
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .wl-case-thumbs button {
+          aspect-ratio: 16 / 10;
+          overflow: hidden;
+          border: 1px solid var(--line);
+          border-radius: var(--r-md);
+          background: var(--bg-elev);
+          cursor: pointer;
+          min-height: 64px;
+          opacity: 0.58;
+          padding: 0;
+          transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), border-color 0.3s var(--ease);
+        }
+
+        .wl-case-thumbs button:hover,
+        .wl-case-thumbs button.is-active {
+          opacity: 1;
+          transform: translateY(-2px);
+          border-color: var(--accent);
+        }
+
+        .wl-case-two-col,
+        .wl-case-stack-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 24px;
+        }
+
+        .wl-case-list-card {
+          padding: clamp(28px, 4vw, 48px);
+          background: var(--bg-elev);
+        }
+
+        .wl-case-list-card-accent {
+          background: var(--bg-elev-2);
+        }
+
+        .wl-case-list-card h2 {
+          margin-top: 20px;
+          margin-bottom: 32px;
+        }
+
+        .wl-case-list-card ul {
+          display: grid;
+          gap: 18px;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .wl-case-list-card li {
+          display: grid;
+          grid-template-columns: 32px 1fr;
+          gap: 14px;
+          align-items: start;
+          color: var(--ink-dim);
+          line-height: 1.6;
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-list-card li span {
+          width: 32px;
+          height: 32px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          color: var(--accent);
+          border: 1px solid var(--line-strong);
+          background: color-mix(in oklch, var(--accent), transparent 92%);
+        }
+
+        .wl-case-tech {
+          padding: clamp(28px, 4vw, 48px) 0;
+        }
+
+        .wl-case-tech h2 {
+          margin-top: 20px;
+        }
+
+        .wl-case-tech-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 32px;
+        }
+
+        .wl-case-tech-list span {
+          border: 1px solid var(--line-strong);
+          border-radius: 999px;
+          color: var(--ink-dim);
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          padding: 12px 16px;
+          text-transform: uppercase;
+          overflow-wrap: anywhere;
+          transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+        }
+
+        .wl-case-tech-list span:hover {
+          background: var(--accent);
+          border-color: var(--accent);
+          color: var(--accent-ink);
+          transform: translateY(-1px);
+        }
+
+        .wl-case-testimonial {
+          padding: clamp(32px, 5vw, 64px);
+          background: var(--bg-elev-2);
+        }
+
+        .wl-case-quote-mark {
+          font-family: var(--font-serif);
+          font-size: clamp(84px, 9vw, 140px);
+          line-height: 0.7;
+          color: var(--accent);
+          opacity: 0.42;
+          margin-bottom: 20px;
+        }
+
+        .wl-case-testimonial blockquote {
+          margin: 0;
+          color: var(--ink);
+          font-family: var(--font-display);
+          font-size: clamp(24px, 3vw, 44px);
+          line-height: 1.12;
+          letter-spacing: -0.03em;
+          overflow-wrap: anywhere;
+        }
+
+        .wl-case-author {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-top: 40px;
+          padding-top: 24px;
+          border-top: 1px solid var(--line);
+        }
+
+        .wl-case-author > div {
+          width: 52px;
+          height: 52px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          border-radius: var(--r-md);
+          background: var(--accent);
+          color: var(--accent-ink);
+          font-family: var(--font-display);
+          font-size: 22px;
+          letter-spacing: -0.03em;
+        }
+
+        .wl-case-author span {
+          display: grid;
+          gap: 4px;
+          color: var(--ink-mute);
+          font-size: 14px;
+          line-height: 1.4;
+        }
+
+        .wl-case-author strong {
+          color: var(--ink);
+          font-family: var(--font-mono);
+          font-size: 12px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .wl-case-final-cta {
+          padding-top: 0;
+        }
+
+        .wl-case-cta-card {
+          display: grid;
+          grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.75fr);
+          gap: clamp(36px, 7vw, 96px);
+          align-items: end;
+          overflow: hidden;
+          border-radius: var(--r-lg);
+          background: var(--accent);
+          color: var(--accent-ink);
+          padding: clamp(44px, 8vw, 110px) clamp(28px, 6vw, 90px);
+        }
+
+        .wl-case-cta-card .eyebrow,
+        .wl-case-cta-card .dot {
+          color: var(--accent-ink);
+        }
+
+        .wl-case-cta-card .dot {
+          background: currentColor;
+          box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent-ink), transparent 82%);
+        }
+
+        .wl-case-cta-card h2 {
+          margin-top: 24px;
+          color: var(--accent-ink);
+        }
+
+        .wl-case-cta-card p {
+          color: color-mix(in oklch, var(--accent-ink), transparent 18%);
+          font-size: clamp(17px, 1.2vw, 20px);
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        .wl-case-cta-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 32px;
+        }
+
+        .wl-case-cta-actions a {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          justify-content: center;
+          min-height: 48px;
+          padding: 16px 22px;
+          border-radius: 999px;
+          font-family: var(--font-mono);
+          font-size: 13px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          text-decoration: none;
+          border: 1px solid color-mix(in oklch, var(--accent-ink), transparent 70%);
+          color: var(--accent-ink);
+          text-align: center;
+          transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+        }
+
+        .wl-case-cta-actions a:first-child {
+          background: var(--accent-ink);
+          color: var(--accent);
+          border-color: var(--accent-ink);
+        }
+
+        .wl-case-cta-actions a:hover {
+          transform: translateY(-1px);
+        }
+
+        .wl-case-lightbox {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: clamp(16px, 4vw, 48px);
+          background: rgba(0, 0, 0, 0.9);
+          backdrop-filter: blur(12px);
+        }
+
+        .wl-case-lightbox-inner {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 1500px;
+          max-height: 100%;
+        }
+
+        .wl-case-lightbox-close,
+        .wl-case-lightbox-nav,
+        .wl-case-lightbox-caption {
+          position: absolute;
+          z-index: 2;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          border-radius: 999px;
+          background: rgba(10, 13, 11, 0.72);
+          color: var(--ink);
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          backdrop-filter: blur(8px);
+        }
+
+        .wl-case-lightbox-close,
+        .wl-case-lightbox-nav {
+          cursor: pointer;
+          min-height: 44px;
+          padding: 12px 16px;
+          transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+        }
+
+        .wl-case-lightbox-close:hover,
+        .wl-case-lightbox-nav:hover {
+          background: var(--accent);
+          color: var(--accent-ink);
+          transform: translateY(-1px);
+        }
+
+        .wl-case-lightbox-close {
+          top: 0;
+          right: 0;
+        }
+
+        .wl-case-lightbox-prev {
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .wl-case-lightbox-next {
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        .wl-case-lightbox-prev:hover,
+        .wl-case-lightbox-next:hover {
+          transform: translateY(calc(-50% - 1px));
+        }
+
+        .wl-case-lightbox-caption {
+          left: 50%;
+          bottom: 0;
+          display: flex;
+          gap: 12px;
+          max-width: min(720px, calc(100% - 32px));
+          padding: 12px 16px;
+          transform: translateX(-50%);
+          color: var(--ink-dim);
+          text-align: center;
+        }
+
+        @media (max-width: 1100px) {
+          .wl-case-hero-grid,
+          .wl-case-cta-card {
+            grid-template-columns: 1fr;
+          }
+
+          .wl-case-browser {
+            transform: none;
+          }
+
+          .wl-case-results-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .wl-case-stack-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 900px) {
+          .wl-case-meta,
+          .wl-case-section-head {
+            align-items: flex-start;
+            flex-direction: column;
+            margin-bottom: 44px;
+          }
+
+          .wl-case-details,
+          .wl-case-two-col {
+            grid-template-columns: 1fr;
+          }
+
+          .wl-case-details > div {
+            border-right: 0;
+            border-bottom: 1px solid var(--line);
+          }
+
+          .wl-case-details > div:last-child {
+            border-bottom: 0;
+          }
+
+          .wl-case-thumbs {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 680px) {
+          .wl-case-hero {
+            padding-top: clamp(56px, 14vw, 72px);
+          }
+
+          .wl-case-title {
+            font-size: clamp(42px, 13vw, 76px);
+            line-height: 0.98;
+          }
+
+          .wl-case-overview,
+          .wl-case-actions {
+            margin-top: 28px;
+          }
+
+          .wl-case-actions,
+          .wl-case-cta-actions {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .wl-case-actions .ds-btn,
+          .wl-case-cta-actions a {
+            justify-content: center;
+            width: 100%;
+          }
+
+          .wl-case-browser-image {
+            aspect-ratio: 4 / 3;
+          }
+
+          .wl-case-results-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .wl-case-gallery-main {
+            min-height: clamp(220px, 68vw, 300px);
+          }
+
+          .wl-case-thumbs {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .wl-case-lightbox-nav {
+            top: auto;
+            bottom: 56px;
+          }
+
+          .wl-case-lightbox-prev {
+            left: 16px;
+          }
+
+          .wl-case-lightbox-next {
+            right: 16px;
+          }
+
+          .wl-case-lightbox-prev,
+          .wl-case-lightbox-next,
+          .wl-case-lightbox-prev:hover,
+          .wl-case-lightbox-next:hover {
+            transform: none;
+          }
+
+          .wl-case-lightbox-caption {
+            display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .wl-case-results,
+          .wl-case-gallery-section,
+          .wl-case-narrative,
+          .wl-case-stack,
+          .wl-case-final-cta {
+            padding-top: calc(var(--section-y) * 0.85);
+            padding-bottom: calc(var(--section-y) * 0.85);
+          }
+
+          .wl-case-details > div,
+          .wl-case-result-card,
+          .wl-case-list-card,
+          .wl-case-testimonial {
+            padding: 22px;
+          }
+
+          .wl-case-gallery-main {
+            min-height: clamp(200px, 64vw, 250px);
+          }
+
+          .wl-case-thumbs {
+            gap: 8px;
+          }
+
+          .wl-case-list-card li {
+            grid-template-columns: 28px 1fr;
+          }
+
+          .wl-case-list-card li span {
+            width: 28px;
+            height: 28px;
+          }
+
+          .wl-case-lightbox {
+            padding: 12px;
+          }
+
+          .wl-case-lightbox-close {
+            top: 8px;
+            right: 8px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .wl-case-meta,
+          .wl-case-section-head {
+            gap: 18px;
+            margin-bottom: 34px;
+          }
+
+          .wl-case-title {
+            font-size: clamp(38px, 12vw, 52px);
+          }
+
+          .wl-case-thumbs {
+            grid-template-columns: 1fr;
+          }
+
+          .wl-case-tech-list span,
+          .wl-case-cta-actions a,
+          .wl-case-actions .ds-btn {
+            width: 100%;
+          }
+
+          .wl-case-author {
+            align-items: flex-start;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .wl-case-browser,
+          .wl-case-result-card,
+          .wl-case-gallery-main img,
+          .wl-case-thumbs button,
+          .wl-case-tech-list span,
+          .wl-case-cta-actions a,
+          .wl-case-lightbox-close,
+          .wl-case-lightbox-nav {
+            transition: none !important;
+          }
+
+          .wl-case-browser:hover,
+          .wl-case-result-card:hover,
+          .wl-case-gallery-main:hover img,
+          .wl-case-thumbs button:hover,
+          .wl-case-tech-list span:hover,
+          .wl-case-cta-actions a:hover,
+          .wl-case-lightbox-close:hover,
+          .wl-case-lightbox-nav:hover {
+            transform: none !important;
+          }
+        }
+      `}</style>
     </article>
   );
 }

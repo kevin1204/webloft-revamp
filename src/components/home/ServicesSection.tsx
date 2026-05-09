@@ -38,7 +38,7 @@ const SERVICES = [
     title: 'Landing pages',
     desc: 'Single-page, single-goal pages engineered to convert paid traffic.',
     tags: ['A/B-ready', 'Funnel', 'Tracking'],
-    href: '/services/web-design',
+    href: '/services/landing-pages',
   },
   {
     n: '05',
@@ -52,14 +52,14 @@ const SERVICES = [
     title: 'Lead capture & automation',
     desc: 'Forms, automated email/SMS, CRM piping, AI chatbots — every lead, instantly notified.',
     tags: ['Forms', 'CRM', 'AI chat', 'Notifications'],
-    href: '/services',
+    href: '/services/lead-capture-automation',
   },
   {
     n: '07',
     title: 'Hosting, domains & maintenance',
     desc: "We manage the boring infrastructure so you don't have to think about it.",
     tags: ['Uptime', 'Backups', 'Updates'],
-    href: '/services/website-maintenance',
+    href: '/services/hosting-security-setup',
   },
   {
     n: '08',
@@ -78,14 +78,22 @@ function ServiceRow({
   const [open, setOpen] = useState(false);
 
   return (
-        <div
-          className="service-row reveal"
+    <Link
+      href={s.href}
+      className="service-row reveal"
+      aria-label={`View ${s.title} service page`}
+      title={`View ${s.title}`}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
       style={{
+        display: 'block',
         borderBottom: '1px solid var(--line)',
+        color: 'inherit',
         padding: open ? '28px 24px' : '28px 0',
         cursor: 'pointer',
+        textDecoration: 'none',
         transition: 'background 0.4s var(--ease), padding 0.4s var(--ease)',
         background: open ? 'var(--bg-elev-2)' : 'transparent',
       }}
@@ -130,7 +138,9 @@ function ServiceRow({
         >
           {s.desc}
         </div>
-        <div
+        <span
+          className="service-arrow-target"
+          aria-hidden="true"
           style={{
             width: 40,
             height: 40,
@@ -146,11 +156,12 @@ function ServiceRow({
           }}
         >
           <ArrowIcon />
-        </div>
+        </span>
       </div>
 
       {/* Expanded tags */}
       <div
+        className="service-tags-wrap"
         style={{
           maxHeight: open ? 80 : 0,
           overflow: 'hidden',
@@ -185,7 +196,7 @@ function ServiceRow({
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -220,7 +231,7 @@ export default function ServicesSection() {
               textTransform: 'uppercase',
             }}
           >
-            (05) — Services
+            (08) — Services
           </div>
         </div>
 

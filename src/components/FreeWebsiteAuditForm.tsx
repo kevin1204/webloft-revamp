@@ -370,7 +370,7 @@ export default function FreeWebsiteAuditForm() {
                   <span className="text-white font-bold text-lg">MJ</span>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">Marcus Johnson</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">Sergio Amigon</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">CEO, TechStart Solutions</p>
                 </div>
               </div>

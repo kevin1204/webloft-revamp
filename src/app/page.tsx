@@ -24,7 +24,7 @@ const structuredData = {
   description:
     'Premium, conversion-focused websites for service businesses ready to grow.',
   url: 'https://webloftstudio.com',
-  email: 'hello@webloftstudio.com',
+  email: 'info@webloftstudio.com',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'CA',

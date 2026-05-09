@@ -1483,6 +1483,7 @@ section { position: relative; }
 @media (max-width: 900px) {
   .service-header { grid-template-columns: 60px 1fr auto !important; }
   .service-desc-col { display: none !important; }
+  .service-tags-wrap > div { padding-left: 92px !important; }
   .case-study-card {
     grid-template-columns: 1fr !important;
   }
@@ -1502,6 +1503,30 @@ section { position: relative; }
   }
   .cases-head-row .cases-head-cta {
     justify-self: start !important;
+  }
+}
+
+.service-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--r-sm);
+}
+
+.service-row:hover .service-arrow-target,
+.service-row:focus-visible .service-arrow-target {
+  border-color: var(--accent) !important;
+}
+
+@media (max-width: 560px) {
+  .service-header {
+    grid-template-columns: 1fr auto !important;
+    gap: 18px !important;
+  }
+  .service-header > div:first-child {
+    grid-column: 1 / -1;
+  }
+  .service-tags-wrap > div {
+    padding-left: 0 !important;
   }
 }
 

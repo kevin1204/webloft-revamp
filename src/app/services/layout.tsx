@@ -1,8 +1,18 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Web Design Services Toronto | Webflow Development | SEO | Webloft",
-  description: "Professional web design services in Toronto. Custom websites, Webflow development, SEO optimization, and maintenance. Drive business growth with expert web solutions.",
+  title: "Website Design, Development, SEO & Automation Services | Webloft Studio",
+  description: "Explore Webloft Studio services for custom website design, website development, redesigns, landing pages, SEO setup, lead capture, maintenance, and analytics tracking.",
+  keywords: [
+    'website design services',
+    'website development services',
+    'website redesign services',
+    'landing page design',
+    'on page SEO setup',
+    'lead capture automation',
+    'website maintenance',
+    'analytics tracking setup',
+  ],
   alternates: {
     canonical: 'https://webloftstudio.com/services'
   }

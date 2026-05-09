@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { servicePageSlugs } from '@/lib/service-pages'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://webloftstudio.com'
@@ -108,30 +109,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     // Service pages
-    {
-      url: `${baseUrl}/services/seo-optimization`,
+    ...servicePageSlugs.map((slug) => ({
+      url: `${baseUrl}/services/${slug}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/web-design`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/webflow-development`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/website-maintenance`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+    })),
     // Local SEO pages
     {
       url: `${baseUrl}/web-design-toronto`,

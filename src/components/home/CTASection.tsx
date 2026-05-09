@@ -114,7 +114,7 @@ export default function CTASection() {
               Book a free 30-min call <ArrowIcon />
             </Link>
             <Link
-              href="mailto:hello@webloftstudio.com"
+              href="mailto:info@webloftstudio.com"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -132,7 +132,7 @@ export default function CTASection() {
                 transition: 'border-color 0.3s var(--ease)',
               }}
             >
-              hello@webloftstudio.com <ArrowIcon />
+              info@webloftstudio.com <ArrowIcon />
             </Link>
           </div>
 

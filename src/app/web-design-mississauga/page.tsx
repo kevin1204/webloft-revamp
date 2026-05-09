@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 export default function WebDesignMississauga() {
   const testimonials = [
     {
-      name: "Marcus Johnson",
+      name: "Sergio Amigon",
       title: "CEO",
       company: "TechStart Solutions",
       rating: 5,

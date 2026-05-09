@@ -81,11 +81,11 @@ export default function FlowgaCaseStudyPage() {
     projectDuration: "4 weeks",
     projectImages: [
       {
-        src: "/projects/gallery/flowga-1-min.png",
+        src: "/PROJECTS/gallery/flowga-1-min.png",
         alt: "Flowga Yoga Studio homepage design"
       },
       {
-        src: "/projects/gallery/flowga-2-min.png",
+        src: "/PROJECTS/gallery/flowga-2-min.png",
         alt: "Mobile responsive design for yoga classes"
       }
     ],
@@ -97,12 +97,6 @@ export default function FlowgaCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CaseStudy {...caseStudyData} />
-        </div>
-      </div>
-    </div>
+    <CaseStudy {...caseStudyData} />
   );
 }

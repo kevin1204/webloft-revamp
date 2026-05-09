@@ -2,27 +2,6 @@ import PageHeader from '@/components/PageHeader';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import CTASection from '@/components/home/CTASection';
 
-const TEAM = [
-  {
-    n: '01',
-    name: 'Alex Romano',
-    role: 'Founder, design lead',
-    bio: 'Eight years in product and brand. Obsessed with type, conversion psychology, and shipping.',
-  },
-  {
-    n: '02',
-    name: 'Priya Shah',
-    role: 'Head of build',
-    bio: "Webflow expert dev. Performance budgets, accessibility, and 'why does this site take 8 seconds to load' detective work.",
-  },
-  {
-    n: '03',
-    name: 'Marcus Hill',
-    role: 'Strategy & SEO',
-    bio: 'Ex-search marketing lead. Schema, on-page, and the slow art of ranking that actually pays back.',
-  },
-];
-
 export default function AboutPage() {
   return (
     <>
@@ -89,108 +68,6 @@ export default function AboutPage() {
                 meet you.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section style={{ paddingBottom: 'var(--section-y)' }}>
-        <div className="ds-container">
-          <div
-            className="reveal"
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: 56,
-            }}
-          >
-            <div className="eyebrow">
-              <span className="dot" />
-              The team
-            </div>
-            <div
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 12,
-                color: 'var(--ink-mute)',
-              }}
-            >
-              Three humans
-            </div>
-          </div>
-
-          <div className="team-grid">
-            {TEAM.map((member, i) => (
-              <div
-                key={member.n}
-                className="reveal"
-                style={{
-                  padding: 32,
-                  borderRight:
-                    i < TEAM.length - 1 ? '1px solid var(--line)' : 'none',
-                  borderBottom: '1px solid var(--line)',
-                  minHeight: 380,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {/* Avatar */}
-                <div
-                  style={{
-                    aspectRatio: '1/1',
-                    maxWidth: 200,
-                    background:
-                      'linear-gradient(135deg, var(--bg-elev), var(--bg-elev-2))',
-                    border: '1px solid var(--line-strong)',
-                    borderRadius: 'var(--r-lg)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 56,
-                    color: 'var(--accent)',
-                    letterSpacing: '-0.03em',
-                    marginBottom: 24,
-                  }}
-                >
-                  {member.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join('')}
-                </div>
-
-                <div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: 11,
-                      color: 'var(--ink-mute)',
-                      letterSpacing: '0.16em',
-                      marginBottom: 12,
-                    }}
-                  >
-                    {member.n}
-                  </div>
-                  <div className="h-3">{member.name}</div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: 12,
-                      color: 'var(--accent)',
-                      letterSpacing: '0.06em',
-                      marginTop: 6,
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {member.role}
-                  </div>
-                  <p className="body-sm" style={{ marginTop: 14 }}>
-                    {member.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

@@ -226,8 +226,8 @@ export default function ContactPage() {
               </div>
               <ContactLine
                 label="Email"
-                value="hello@webloftstudio.com"
-                href="mailto:hello@webloftstudio.com"
+                value="info@webloftstudio.com"
+                href="mailto:info@webloftstudio.com"
               />
               <ContactLine
                 label="Toronto"

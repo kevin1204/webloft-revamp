@@ -281,14 +281,14 @@ function CTA() {
             }}>
               Book a free 30-min call <Arrow />
             </a>
-            <a href="mailto:hello@webloftstudio.com" style={{
+            <a href="mailto:info@webloftstudio.com" style={{
               display: "inline-flex", alignItems: "center", gap: 12,
               padding: "20px 28px", borderRadius: 99,
               background: "transparent", color: "var(--accent-ink)",
               border: "1px solid color-mix(in oklch, var(--accent-ink), transparent 70%)",
               fontFamily: "var(--font-mono)", fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase",
             }}>
-              hello@webloftstudio.com <Arrow />
+              info@webloftstudio.com <Arrow />
             </a>
           </div>
           <div style={{
@@ -321,7 +321,7 @@ function Footer() {
           </div>
           <FooterCol title="Studio" items={[["Work", "work.html"], ["Services", "services.html"], ["About", "about.html"], ["Contact", "contact.html"]]} />
           <FooterCol title="Services" items={[["Custom design", "services.html"], ["Webflow", "services.html"], ["Redesigns", "services.html"], ["Landing pages", "services.html"], ["SEO", "services.html"]]} />
-          <FooterCol title="Connect" items={[["hello@webloftstudio.com", "mailto:hello@webloftstudio.com"], ["Instagram", "#"], ["LinkedIn", "#"], ["Dribbble", "#"], ["Book a call", "contact.html"]]} />
+          <FooterCol title="Connect" items={[["info@webloftstudio.com", "mailto:info@webloftstudio.com"], ["Instagram", "#"], ["LinkedIn", "#"], ["Dribbble", "#"], ["Book a call", "contact.html"]]} />
         </div>
 
         {/* Big wordmark */}

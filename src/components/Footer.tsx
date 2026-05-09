@@ -93,18 +93,21 @@ export default function Footer() {
           <FooterCol
             title="Services"
             items={[
-              ['Custom design', '/services/web-design'],
-              ['Webflow', '/services/webflow-development'],
-              ['Redesigns', '/services/website-redesign'],
-              ['Landing pages', '/services/web-design'],
-              ['SEO', '/services/seo-optimization'],
+              ['Custom website design', '/services/web-design'],
+              ['Website development', '/services/webflow-development'],
+              ['Website redesigns', '/services/website-redesign'],
+              ['Landing pages', '/services/landing-pages'],
+              ['SEO & on-page setup', '/services/seo-optimization'],
+              ['Lead capture & automation', '/services/lead-capture-automation'],
+              ['Hosting, domains & maintenance', '/services/hosting-security-setup'],
+              ['Analytics & tracking', '/services/analytics-monthly-reports'],
             ]}
           />
 
           <FooterCol
             title="Connect"
             items={[
-              ['hello@webloftstudio.com', 'mailto:hello@webloftstudio.com'],
+              ['info@webloftstudio.com', 'mailto:info@webloftstudio.com'],
               ['Instagram', 'https://instagram.com/webloftstudio'],
               ['LinkedIn', 'https://linkedin.com/company/webloftstudio'],
               ['Book a call', '/contact'],

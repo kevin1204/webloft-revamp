@@ -8,7 +8,7 @@ export const metadata = {
 export default function AmigoCaseStudyPage() {
   const caseStudyData = {
     projectTitle: "Amigo Contracting Services Website",
-    clientName: "Marcus Johnson",
+    clientName: "Sergio Amigon",
     clientTitle: "CEO",
     clientCompany: "Amigo Contracting Services",
     projectOverview: "Amigo Contracting Services needed a professional website to showcase their construction services and generate more qualified leads. The existing site was outdated and not optimized for lead generation. We created a modern, mobile-responsive website with strategic lead capture forms and service showcases that significantly increased their online presence and lead generation.",
@@ -63,7 +63,7 @@ export default function AmigoCaseStudyPage() {
     ],
     testimonial: {
       quote: "Working with Webloft Studio transformed our online presence. Within 3 months, we saw a 150% increase in qualified leads. Their attention to detail and understanding of business needs is exceptional. The new website perfectly represents our professional services and has become our best marketing tool.",
-      author: "Marcus Johnson",
+      author: "Sergio Amigon",
       title: "CEO",
       company: "Amigo Contracting Services",
       avatar: "/avatar1.jpg"
@@ -80,15 +80,15 @@ export default function AmigoCaseStudyPage() {
     projectDuration: "3 weeks",
     projectImages: [
       {
-        src: "/projects/gallery/amigo-contracting-1-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-1-min.png",
         alt: "Amigo Contracting Services homepage design"
       },
       {
-        src: "/projects/gallery/amigo-contracting-2-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-2-min.png",
         alt: "Mobile responsive construction website"
       },
       {
-        src: "/projects/gallery/amigo-contracting-3-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-3-min.png",
         alt: "Service pages and project gallery"
       }
     ],
@@ -100,12 +100,6 @@ export default function AmigoCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CaseStudy {...caseStudyData} />
-        </div>
-      </div>
-    </div>
+    <CaseStudy {...caseStudyData} />
   );
 }

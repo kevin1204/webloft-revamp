@@ -233,7 +233,7 @@ function ContactPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80, alignItems: "start" }} className="contact-grid">
             <div className="reveal" style={{ position: "sticky", top: 120 }}>
               <div className="eyebrow" style={{ marginBottom: 24 }}><span className="dot" />Direct lines</div>
-              <ContactLine label="Email" value="hello@webloftstudio.com" href="mailto:hello@webloftstudio.com" />
+              <ContactLine label="Email" value="info@webloftstudio.com" href="mailto:info@webloftstudio.com" />
               <ContactLine label="Phone" value="+1 (647) 555-0119" href="tel:+16475550119" />
               <ContactLine label="Toronto" value="180 Queen St W, Suite 410" />
               <ContactLine label="Hours" value="Mon–Fri · 9–6 EST" />

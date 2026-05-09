@@ -80,15 +80,15 @@ export default function AeriesCaseStudyPage() {
     projectDuration: "2 weeks",
     projectImages: [
       {
-        src: "/projects/gallery/aeries-1-min.png",
+        src: "/PROJECTS/gallery/aeries-1-min.png",
         alt: "Aeries business homepage design"
       },
       {
-        src: "/projects/gallery/aeries-2-min.png",
+        src: "/PROJECTS/gallery/aeries-2-min.png",
         alt: "Mobile responsive business website"
       },
       {
-        src: "/projects/gallery/aeries-3-min.png",
+        src: "/PROJECTS/gallery/aeries-3-min.png",
         alt: "Smooth animations and interactions"
       }
     ],
@@ -100,12 +100,6 @@ export default function AeriesCaseStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CaseStudy {...caseStudyData} />
-        </div>
-      </div>
-    </div>
+    <CaseStudy {...caseStudyData} />
   );
 }
