@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block admin or private areas (add as needed)
+# Disallow: /admin/
+# Disallow: /private/
+
+Sitemap: https://webloftstudio.com/sitemap.xml
