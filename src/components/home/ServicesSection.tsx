@@ -78,22 +78,17 @@ function ServiceRow({
   const [open, setOpen] = useState(false);
 
   return (
-    <Link
-      href={s.href}
+    <div
       className="service-row reveal"
-      aria-label={`View ${s.title} service page`}
-      title={`View ${s.title}`}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
+      onClick={() => setOpen((o) => !o)}
       style={{
         display: 'block',
         borderBottom: '1px solid var(--line)',
         color: 'inherit',
         padding: open ? '28px 24px' : '28px 0',
-        cursor: 'pointer',
-        textDecoration: 'none',
+        cursor: 'default',
         transition: 'background 0.4s var(--ease), padding 0.4s var(--ease)',
         background: open ? 'var(--bg-elev-2)' : 'transparent',
       }}
@@ -138,9 +133,13 @@ function ServiceRow({
         >
           {s.desc}
         </div>
-        <span
-          className="service-arrow-target"
-          aria-hidden="true"
+        {/* Arrow is the only navigable element */}
+        <Link
+          href={s.href}
+          aria-label={`View ${s.title} service page`}
+          onClick={(e) => e.stopPropagation()}
+          onFocus={() => setOpen(true)}
+          onBlur={() => setOpen(false)}
           style={{
             width: 40,
             height: 40,
@@ -153,10 +152,11 @@ function ServiceRow({
             color: open ? 'var(--accent-ink)' : 'var(--ink)',
             transition: 'all 0.4s var(--ease)',
             flexShrink: 0,
+            textDecoration: 'none',
           }}
         >
           <ArrowIcon />
-        </span>
+        </Link>
       </div>
 
       {/* Expanded tags */}
@@ -196,7 +196,7 @@ function ServiceRow({
           ))}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

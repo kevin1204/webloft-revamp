@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function ArrowIcon() {
   return (
@@ -15,6 +15,9 @@ function ArrowIcon() {
 export default function HeroSection() {
   const [time, setTime] = useState('');
   const [ready, setReady] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [hovering, setHovering] = useState(false);
+  const mockupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fmt = () =>
@@ -33,6 +36,20 @@ export default function HeroSection() {
       clearTimeout(t);
     };
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = mockupRef.current;
+    if (!el) return;
+    const { left, top, width, height } = el.getBoundingClientRect();
+    const x = ((e.clientX - left) / width - 0.5) * 2;   // -1 → 1
+    const y = ((e.clientY - top) / height - 0.5) * 2;    // -1 → 1
+    setTilt({ x: y * -6, y: x * 8 });
+  };
+
+  const handleMouseLeave = () => {
+    setHovering(false);
+    setTilt({ x: 0, y: 0 });
+  };
 
   const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
@@ -98,12 +115,9 @@ export default function HeroSection() {
               style={{
                 position: 'relative',
                 margin: 0,
-                /* Slightly tighter than the global h-display max so it fits the column */
                 fontSize: 'clamp(48px, 5.5vw, 88px)',
               }}
             >
-              {/* Each line is wrapped in overflow:hidden so the text slides up from behind */}
-
               {/* Line 1 */}
               <span style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.06em', marginBottom: '-0.06em' }}>
                 <span
@@ -195,116 +209,148 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* ── Right column: stacked browser mockups ── */}
-          <div style={{ position: 'relative' }}>
-
-            {/* Soft green ambient glow behind the cards */}
+          {/* ── Right column: stacked browser mockups with 3D tilt ── */}
+          <div
+            ref={mockupRef}
+            className="hero-mockup-wrapper"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={handleMouseLeave}
+            style={{ position: 'relative', perspective: '1000px', cursor: 'default' }}
+          >
+            {/* 3D tilt layer — wraps both cards together */}
             <div
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                top: '10%',
-                left: '-5%',
-                width: '110%',
-                height: '80%',
-                background: 'radial-gradient(ellipse, color-mix(in oklch, var(--accent), transparent 80%) 0%, transparent 68%)',
-                filter: 'blur(48px)',
-                pointerEvents: 'none',
-                opacity: ready ? 1 : 0,
-                transition: `opacity 2s ${ease} 0.9s`,
-              }}
-            />
-
-            {/* Back card — Flowga, rotated clockwise, peeks below-right */}
-            <div
-              className="hero-mockup-back"
-              style={{
-                position: 'absolute',
-                bottom: -28,
-                right: -28,
-                width: '88%',
-                borderRadius: 10,
-                overflow: 'hidden',
-                border: '1px solid var(--line)',
-                boxShadow: '0 12px 48px rgba(0,0,0,0.5)',
-                transform: ready ? 'rotate(4deg)' : 'rotate(4deg) translateY(32px)',
-                opacity: ready ? 0.55 : 0,
-                transition: `transform 1.2s ${ease} 0.5s, opacity 0.9s ${ease} 0.5s`,
-              }}
-            >
-              <div style={{ position: 'relative', aspectRatio: '16/10' }}>
-                <Image
-                  src="/PROJECTS/gallery/flowga-1-min.png"
-                  alt="Flowga Yoga website"
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'top center' }}
-                />
-              </div>
-            </div>
-
-            {/* Front card — Amigo Contracting, with browser chrome */}
-            <div
-              className="hero-mockup-front"
+              className="hero-mockup-tilt"
               style={{
                 position: 'relative',
-                zIndex: 1,
-                borderRadius: 12,
-                overflow: 'hidden',
-                border: '1px solid var(--line-strong)',
-                boxShadow: '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03)',
-                transform: ready ? 'rotate(-2deg)' : 'rotate(-2deg) translateY(40px)',
-                opacity: ready ? 1 : 0,
-                transition: `transform 1.2s ${ease} 0.3s, opacity 0.9s ${ease} 0.3s`,
+                transformStyle: 'preserve-3d',
+                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                transition: hovering
+                  ? 'transform 0.12s linear'
+                  : `transform 0.9s ${ease}`,
+                willChange: 'transform',
               }}
             >
-              {/* Browser chrome bar */}
+              {/* Soft green ambient glow behind the cards */}
               <div
+                aria-hidden="true"
                 style={{
-                  background: 'var(--bg-elev-2)',
-                  borderBottom: '1px solid var(--line)',
-                  padding: '10px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 7,
+                  position: 'absolute',
+                  top: '10%',
+                  left: '-5%',
+                  width: '110%',
+                  height: '80%',
+                  background: 'radial-gradient(ellipse, color-mix(in oklch, var(--accent), transparent 80%) 0%, transparent 68%)',
+                  filter: 'blur(48px)',
+                  pointerEvents: 'none',
+                  opacity: ready ? 1 : 0,
+                  transition: `opacity 2s ${ease} 0.9s`,
+                }}
+              />
+
+              {/* Back card — Flowga, rotated clockwise, peeks below-right */}
+              <div
+                className="hero-mockup-back"
+                style={{
+                  position: 'absolute',
+                  bottom: -28,
+                  right: -28,
+                  width: '88%',
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                  border: '1px solid var(--line)',
+                  boxShadow: '0 12px 48px rgba(0,0,0,0.5)',
+                  transform: ready ? 'rotate(4deg)' : 'rotate(4deg) translateY(32px)',
+                  opacity: ready ? 0.55 : 0,
+                  transition: `transform 1.2s ${ease} 0.5s, opacity 0.9s ${ease} 0.5s`,
                 }}
               >
-                {/* macOS traffic-light dots */}
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57', flexShrink: 0 }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e', flexShrink: 0 }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28ca41', flexShrink: 0 }} />
-                {/* Fake URL bar */}
-                <div
-                  style={{
-                    flex: 1,
-                    margin: '0 8px',
-                    background: 'var(--bg)',
-                    borderRadius: 5,
-                    padding: '3px 10px',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 10,
-                    color: 'var(--ink-mute)',
-                    letterSpacing: '0.04em',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  amigocontracting.com
+                <div style={{ position: 'relative', aspectRatio: '16/10' }}>
+                  <Image
+                    src="/PROJECTS/gallery/flowga-1-min.png"
+                    alt="Flowga Yoga website"
+                    fill
+                    style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                  />
                 </div>
               </div>
-              {/* Screenshot */}
-              <div style={{ position: 'relative', aspectRatio: '16/10' }}>
-                <Image
-                  src="/PROJECTS/gallery/amigo-contracting-1-min.png"
-                  alt="Amigo Contracting website"
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'top center' }}
-                  priority
-                />
-              </div>
-            </div>
 
+              {/* Lift wrapper — only the front card lifts on hover */}
+              <div
+                className="hero-mockup-lift"
+                style={{
+                  transform: hovering ? 'translateY(-8px)' : 'translateY(0px)',
+                  transition: `transform 0.45s ${ease}`,
+                }}
+              >
+                {/* Front card — Amigo Contracting, with browser chrome */}
+                <div
+                  className="hero-mockup-front"
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    borderRadius: 12,
+                    overflow: 'hidden',
+                    border: '1px solid var(--line-strong)',
+                    boxShadow: hovering
+                      ? '0 48px 120px rgba(0,0,0,0.8), 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)'
+                      : '0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03)',
+                    transform: ready ? 'rotate(-2deg)' : 'rotate(-2deg) translateY(40px)',
+                    opacity: ready ? 1 : 0,
+                    transition: `transform 1.2s ${ease} 0.3s, opacity 0.9s ${ease} 0.3s, box-shadow 0.45s ${ease}`,
+                  }}
+                >
+                  {/* Browser chrome bar */}
+                  <div
+                    style={{
+                      background: 'var(--bg-elev-2)',
+                      borderBottom: '1px solid var(--line)',
+                      padding: '10px 14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 7,
+                    }}
+                  >
+                    {/* macOS traffic-light dots */}
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57', flexShrink: 0 }} />
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e', flexShrink: 0 }} />
+                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28ca41', flexShrink: 0 }} />
+                    {/* Fake URL bar */}
+                    <div
+                      style={{
+                        flex: 1,
+                        margin: '0 8px',
+                        background: 'var(--bg)',
+                        borderRadius: 5,
+                        padding: '3px 10px',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 10,
+                        color: 'var(--ink-mute)',
+                        letterSpacing: '0.04em',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      amigocontracting.com
+                    </div>
+                  </div>
+                  {/* Screenshot */}
+                  <div style={{ position: 'relative', aspectRatio: '16/10' }}>
+                    <Image
+                      src="/PROJECTS/gallery/amigo-contracting-1-min.png"
+                      alt="Amigo Contracting website"
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'top center' }}
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -350,8 +396,8 @@ export default function HeroSection() {
         /* Stack hero on tablet / mobile */
         @media (max-width: 960px) {
           .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-mockup-back { display: none !important; }
-          .hero-mockup-front { transform: none !important; margin-top: 48px; }
+          /* Hide the entire mockup column when it would wrap below the text */
+          .hero-mockup-wrapper { display: none !important; }
         }
         /* Stack sub-row on mobile */
         @media (max-width: 768px) {

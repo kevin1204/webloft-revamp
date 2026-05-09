@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { BLOG_POSTS } from '@/lib/blog-posts';
+import BlogIndex from '@/components/BlogIndex';
 
 export const metadata = {
   title: 'Web Design Blog | SEO, Conversion & Website Growth | Webloft Studio',
@@ -112,11 +113,15 @@ export default function Blog() {
             {featured.map((post) => (
               <Link href={`/blog/${post.slug}`} className="wl-blog-card ds-card reveal" key={post.slug}>
                 <div className="wl-blog-card-image">
+                  <div className="wl-blog-card-badge">
+                    <span className="wl-blog-card-number">{post.number}</span>
+                    <span className="wl-blog-card-cat">{post.category}</span>
+                  </div>
                   <Image src={post.image} alt={post.title} fill sizes="(max-width: 900px) 100vw, 50vw" />
                 </div>
                 <div className="wl-blog-card-body">
                   <div className="wl-blog-card-meta">
-                    <span>{post.category}</span>
+                    <span>{post.date}</span>
                     <span>{post.readTime}</span>
                   </div>
                   <h3>{post.title}</h3>
@@ -131,43 +136,7 @@ export default function Blog() {
         </div>
       </section>
 
-      <section className="wl-blog-list-section wl-blog-all-section">
-        <div className="ds-container">
-          <div className="wl-blog-section-head reveal">
-            <div>
-              <div className="eyebrow">
-                <span className="dot" />
-                All articles
-              </div>
-              <h2 className="h-2">Field notes for better websites.</h2>
-            </div>
-            <p className="body-lg">
-              Browse the full collection of Webloft articles on design, SEO, maintenance, local search, conversion, and platform decisions.
-            </p>
-          </div>
-
-          <div className="wl-blog-card-grid">
-            {latest.map((post) => (
-              <Link href={`/blog/${post.slug}`} className="wl-blog-card ds-card reveal" key={post.slug}>
-                <div className="wl-blog-card-image">
-                  <Image src={post.image} alt={post.title} fill sizes="(max-width: 900px) 100vw, 33vw" />
-                </div>
-                <div className="wl-blog-card-body">
-                  <div className="wl-blog-card-meta">
-                    <span>{post.category}</span>
-                    <span>{post.date}</span>
-                  </div>
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <div className="wl-blog-card-link">
-                    Read article <ArrowIcon />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <BlogIndex posts={BLOG_POSTS} />
 
       <section className="wl-blog-newsletter-section">
         <div className="ds-container">

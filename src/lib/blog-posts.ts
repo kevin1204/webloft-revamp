@@ -49,7 +49,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-15',
     readTime: '5 min read',
     featured: true,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-01-webflow.jpg',
     keywords: [
       'Webflow agency',
       'best website platform for small business',
@@ -130,7 +130,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-12',
     readTime: '8 min read',
     featured: true,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-02-roi.jpg',
     keywords: [
       'website ROI',
       'website investment',
@@ -211,7 +211,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-10',
     readTime: '10 min read',
     featured: false,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-03-seo.jpg',
     keywords: [
       'SEO for small business',
       'local SEO',
@@ -292,7 +292,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-08',
     readTime: '6 min read',
     featured: false,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-04-mistakes.jpg',
     keywords: [
       'website mistakes',
       'website conversion mistakes',
@@ -367,7 +367,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-05',
     readTime: '7 min read',
     featured: false,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-05-updates.jpg',
     keywords: [
       'how often update website',
       'website maintenance',
@@ -448,7 +448,7 @@ export const BLOG_POSTS: BlogPost[] = [
     isoDate: '2025-01-20',
     readTime: '9 min read',
     featured: false,
-    image: '/hero-bg.jpg',
+    image: '/blog/blog-06-toronto.jpg',
     keywords: [
       'web design services Toronto',
       'website design company Toronto',
