@@ -267,7 +267,7 @@ export default function HeroSection() {
               >
                 <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                   <Image
-                    src="/PROJECTS/gallery/flowga-1-min.png"
+                    src="/PROJECTS/gallery/flowga-1.webp"
                     alt="Flowga Yoga website"
                     fill
                     style={{ objectFit: 'cover', objectPosition: 'top center' }}
@@ -338,7 +338,7 @@ export default function HeroSection() {
                   {/* Screenshot */}
                   <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                     <Image
-                      src="/PROJECTS/gallery/amigo-contracting-1-min.png"
+                      src="/PROJECTS/gallery/amigo-contracting-1.webp"
                       alt="Amigo Contracting website"
                       fill
                       style={{ objectFit: 'cover', objectPosition: 'top center' }}

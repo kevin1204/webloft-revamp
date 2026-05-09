@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getRelatedBlogPosts, type BlogPost } from '@/lib/blog-posts';
+import SubscribeForm from '@/components/SubscribeForm';
 
 function ArrowIcon() {
   return (
@@ -8,6 +9,16 @@ function ArrowIcon() {
       <path d="M3 11L11 3M11 3H4.5M11 3V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
     </svg>
   );
+}
+
+function countWords(post: BlogPost): number {
+  const chunks = post.sections.flatMap((s) => [
+    s.heading,
+    s.intro ?? '',
+    ...s.paragraphs,
+    ...(s.bullets ?? []),
+  ]);
+  return chunks.join(' ').trim().split(/\s+/).filter(Boolean).length;
 }
 
 function buildSchema(post: BlogPost) {
@@ -24,12 +35,13 @@ function buildSchema(post: BlogPost) {
       dateModified: post.isoDate,
       articleSection: post.category,
       timeRequired: post.readTime,
+      wordCount: countWords(post),
       keywords: post.keywords,
       image: `https://webloftstudio.com${post.image}`,
       author: {
-        '@type': 'Organization',
+        '@type': 'Person',
         name: 'Webloft Studio',
-        url: 'https://webloftstudio.com',
+        url: 'https://webloftstudio.com/about',
       },
       publisher: {
         '@type': 'Organization',
@@ -174,6 +186,26 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
               <Link href="/contact" className="ds-btn ds-btn-primary">
                 Talk to Webloft <ArrowIcon />
               </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="wl-blog-subscribe-section">
+          <div className="ds-container">
+            <div className="wl-subscribe-inline reveal">
+              <div className="wl-subscribe-inline-copy">
+                <p className="eyebrow">
+                  <span className="dot" />
+                  Webloft Journal
+                </p>
+                <h2 className="wl-subscribe-inline-title">Practical website ideas in your inbox.</h2>
+                <p className="wl-subscribe-inline-desc">
+                  No noise. Occasional notes on design, SEO, conversion, and the website decisions that help small and medium businesses grow.
+                </p>
+              </div>
+              <div className="wl-subscribe-inline-form">
+                <SubscribeForm variant="inline" />
+              </div>
             </div>
           </div>
         </section>

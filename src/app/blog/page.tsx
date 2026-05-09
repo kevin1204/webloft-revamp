@@ -2,6 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BLOG_POSTS } from '@/lib/blog-posts';
 import BlogIndex from '@/components/BlogIndex';
+import SubscribeModal from '@/components/SubscribeModal';
+import SubscribeForm from '@/components/SubscribeForm';
+import CTASection from '@/components/home/CTASection';
 
 export const metadata = {
   title: 'Web Design Blog | SEO, Conversion & Website Growth | Webloft Studio',
@@ -58,41 +61,46 @@ export default function Blog() {
               <p className="body-lg">
                 Practical notes on web design, SEO, conversion, Webflow, maintenance, analytics, and the decisions that make a website easier to trust and easier to act on.
               </p>
-              <Link href="/contact" className="ds-btn ds-btn-primary">
-                Talk to us <ArrowIcon />
-              </Link>
+              <div className="wl-blog-hero-actions">
+                <Link href="/contact" className="ds-btn ds-btn-primary">
+                  Talk to us <ArrowIcon />
+                </Link>
+                <SubscribeModal />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="wl-blog-featured-section">
-        <div className="ds-container">
-          <Link href={`/blog/${topPost.slug}`} className="wl-blog-feature-card reveal">
-            <div className="wl-blog-feature-image">
-              <Image
-                src={topPost.image}
-                alt={topPost.title}
-                fill
-                sizes="(max-width: 900px) 100vw, 48vw"
-                priority
-              />
-            </div>
-            <div className="wl-blog-feature-copy">
-              <div className="wl-blog-card-meta">
-                <span>{topPost.category}</span>
-                <span>{topPost.date}</span>
-                <span>{topPost.readTime}</span>
+      {topPost && (
+        <section className="wl-blog-featured-section">
+          <div className="ds-container">
+            <Link href={`/blog/${topPost.slug}`} className="wl-blog-feature-card reveal">
+              <div className="wl-blog-feature-image">
+                <Image
+                  src={topPost.image}
+                  alt={topPost.title}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 48vw"
+                  priority
+                />
               </div>
-              <h2>{topPost.title}</h2>
-              <p>{topPost.excerpt}</p>
-              <div className="wl-blog-card-link">
-                Read latest <ArrowIcon />
+              <div className="wl-blog-feature-copy">
+                <div className="wl-blog-card-meta">
+                  <span>{topPost.category}</span>
+                  <span>{topPost.date}</span>
+                  <span>{topPost.readTime}</span>
+                </div>
+                <h2>{topPost.title}</h2>
+                <p>{topPost.excerpt}</p>
+                <div className="wl-blog-card-link">
+                  Read latest <ArrowIcon />
+                </div>
               </div>
-            </div>
-          </Link>
-        </div>
-      </section>
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="wl-blog-list-section">
         <div className="ds-container">
@@ -148,16 +156,12 @@ export default function Blog() {
                 Occasional notes on better service pages, stronger conversion paths, SEO foundations, and launch decisions.
               </p>
             </div>
-            <form className="wl-blog-newsletter-form">
-              <label htmlFor="blog-email">Email address</label>
-              <div>
-                <input id="blog-email" type="email" placeholder="you@company.com" />
-                <button type="submit">Subscribe</button>
-              </div>
-            </form>
+            <SubscribeForm variant="footer" />
           </div>
         </div>
       </section>
+
+      <CTASection />
     </main>
   );
 }

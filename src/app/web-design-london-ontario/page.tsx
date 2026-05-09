@@ -39,11 +39,11 @@ export default function WebDesignLondonOntario() {
     {
       name: "Sergio Amigon",
       title: "CEO",
-      company: "TechStart Solutions",
+      company: "Amigo Contracting Services",
       rating: 5,
       review: "Working with Webloft Studio transformed our online presence. Within 3 months, we saw a 150% increase in qualified leads. Their attention to detail and understanding of business needs is exceptional.",
       date: "2024-12-15",
-      projectImage: "/PROJECTS/AMIGO CONTRACTING SERVICES.png",
+      projectImage: "/PROJECTS/amigo-contracting-services.webp",
       projectName: "Amigo Contracting Services",
       projectCategory: "Construction",
       projectResult: "+180% Lead Increase"
@@ -55,7 +55,7 @@ export default function WebDesignLondonOntario() {
       rating: 5,
       review: "The team at Webloft Studio didn't just build us a website—they built us a lead generation machine. Our booking rate increased by 200% and we finally have a site that represents our brand perfectly.",
       date: "2024-11-20",
-      projectImage: "/PROJECTS/FLOWGA.png",
+      projectImage: "/PROJECTS/flowga.webp",
       projectName: "Flowga Yoga Studio",
       projectCategory: "Wellness",
       projectResult: "+300% Online Bookings"
@@ -67,7 +67,7 @@ export default function WebDesignLondonOntario() {
       rating: 5,
       review: "From strategy to execution, everything was seamless. They understood our local market and built a website that actually brings in customers. Best investment we've made for our business.",
       date: "2024-10-30",
-      projectImage: "/PROJECTS/AERIES.png",
+      projectImage: "/PROJECTS/aeries.webp",
       projectName: "Aeries",
       projectCategory: "Business",
       projectResult: "Improved User Experience"
@@ -185,10 +185,8 @@ export default function WebDesignLondonOntario() {
               "worstRating": "1"
             },
             "sameAs": [
-              "https://www.linkedin.com/company/webloft-studio",
-              "https://twitter.com/webloftstudio",
-              "https://www.facebook.com/webloftstudio",
-              "https://www.instagram.com/webloftstudio"
+              "https://linkedin.com/company/webloftstudio",
+              "https://instagram.com/webloftstudio"
             ]
           })
         }}

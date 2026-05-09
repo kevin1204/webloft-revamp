@@ -80,21 +80,21 @@ export default function AmigoCaseStudyPage() {
     projectDuration: "3 weeks",
     projectImages: [
       {
-        src: "/PROJECTS/gallery/amigo-contracting-1-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-1.webp",
         alt: "Amigo Contracting Services homepage design"
       },
       {
-        src: "/PROJECTS/gallery/amigo-contracting-2-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-2.webp",
         alt: "Mobile responsive construction website"
       },
       {
-        src: "/PROJECTS/gallery/amigo-contracting-3-min.png",
+        src: "/PROJECTS/gallery/amigo-contracting-3.webp",
         alt: "Service pages and project gallery"
       }
     ],
     ctaText: "Start Your Project",
     ctaLink: "/contact",
-    featuredImage: "/PROJECTS/AMIGO CONTRACTING SERVICES.png",
+    featuredImage: "/PROJECTS/amigo-contracting-services.webp",
     category: "Construction",
     date: "December 2024"
   };

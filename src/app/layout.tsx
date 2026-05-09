@@ -86,7 +86,6 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/wflogo.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="canonical" href="https://webloftstudio.com" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased grain`}

@@ -36,8 +36,9 @@ export default function RoofingProDemo() {
     sections.forEach((section) => observer.observe(section));
 
     return () => {
-      if (observerRef.current) {
-        sections.forEach((section) => observerRef.current!.unobserve(section));
+      const currentObserver = observerRef.current;
+      if (currentObserver) {
+        sections.forEach((section) => currentObserver.unobserve(section));
       }
     };
   }, []);

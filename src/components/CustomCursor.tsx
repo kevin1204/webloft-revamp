@@ -7,6 +7,9 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Respect prefers-reduced-motion — skip cursor entirely for accessibility
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -34,34 +37,37 @@ export default function CustomCursor() {
     window.addEventListener('mousemove', onMove);
     raf = requestAnimationFrame(tick);
 
-    const onEnter = () => {
-      ring.style.width = '56px';
-      ring.style.height = '56px';
-      ring.style.borderColor = 'var(--accent)';
-    };
-    const onLeave = () => {
-      ring.style.width = '32px';
-      ring.style.height = '32px';
-      ring.style.borderColor = 'color-mix(in oklch, var(--ink), transparent 60%)';
-    };
+    // Event delegation — one listener pair on document handles all interactive elements,
+    // including dynamically added ones, without accumulating duplicate listeners.
+    const SELECTORS = 'a, button, .ds-btn, .service-row, .ds-card';
 
-    const attachListeners = () => {
-      document.querySelectorAll('a, button, .ds-btn, .service-row, .ds-card').forEach(el => {
-        el.addEventListener('mouseenter', onEnter);
-        el.addEventListener('mouseleave', onLeave);
-      });
+    const onOver = (e: MouseEvent) => {
+      if ((e.target as Element).closest(SELECTORS)) {
+        ring.style.width = '56px';
+        ring.style.height = '56px';
+        ring.style.borderColor = 'var(--accent)';
+      }
     };
 
-    attachListeners();
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as Element;
+      const related = e.relatedTarget as Element | null;
+      // Only collapse ring when leaving the interactive zone entirely
+      if (target.closest(SELECTORS) && !related?.closest(SELECTORS)) {
+        ring.style.width = '32px';
+        ring.style.height = '32px';
+        ring.style.borderColor = 'color-mix(in oklch, var(--ink), transparent 60%)';
+      }
+    };
 
-    // Re-attach on DOM changes (for dynamically rendered content)
-    const observer = new MutationObserver(attachListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('mouseover', onOver);
+    document.addEventListener('mouseout', onOut);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('mousemove', onMove);
-      observer.disconnect();
+      document.removeEventListener('mouseover', onOver);
+      document.removeEventListener('mouseout', onOut);
     };
   }, []);
 

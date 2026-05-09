@@ -10,23 +10,40 @@ export default function FreeWebsiteAuditForm() {
     email: "",
     business: "",
     website: "",
-    phone: ""
+    phone: "",
+    _honeypot: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Track lead magnet download
-    trackLeadMagnetDownload('website_audit', formData);
-    
-    setIsSubmitted(true);
-    setIsSubmitting(false);
+    setErrorMessage("");
+
+    try {
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await res.json().catch(() => ({ error: 'Unexpected server response' }));
+
+      if (!res.ok) {
+        setErrorMessage(result.error || 'Something went wrong. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      trackLeadMagnetDownload('website_audit', formData);
+      setIsSubmitted(true);
+    } catch {
+      setErrorMessage('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +135,24 @@ export default function FreeWebsiteAuditForm() {
                   that covers all the essential elements of a high-performing website.
                 </p>
 
+                {errorMessage && (
+                  <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot — hidden from real users, catches bots */}
+                  <input
+                    type="text"
+                    name="_honeypot"
+                    value={formData._honeypot}
+                    onChange={handleInputChange}
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Full Name *

@@ -27,11 +27,21 @@ export default function ServiceWorkerRegistration() {
           console.log('Service Worker registration failed:', error);
         });
 
-      // Handle service worker updates
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        // Reload page when new service worker takes control
-        window.location.reload();
-      });
+      // When a NEW SW takes over an already-controlled page (i.e. an update,
+      // not the very first install), reload so users get fresh assets.
+      // We check navigator.serviceWorker.controller at registration time:
+      // if there is already a controller, a future controllerchange means an
+      // update arrived → safe to reload. If there is no controller yet, this
+      // is the first install and clients.claim() already handles takeover
+      // without needing a reload.
+      if (navigator.serviceWorker.controller) {
+        let isReloading = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (isReloading) return;
+          isReloading = true;
+          window.location.reload();
+        });
+      }
     }
   }, []);
 

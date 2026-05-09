@@ -2412,6 +2412,327 @@ section { position: relative; }
   .contact-step-buttons > * { width: 100%; justify-content: center; }
 }
 
+/* ── Blog hero action row ─────────────────────────────────── */
+
+.wl-blog-hero-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.wl-subscribe-trigger {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* ── Subscribe modal ──────────────────────────────────────── */
+
+.wl-subscribe-modal {
+  background: transparent;
+  border: 0;
+  height: 100dvh;
+  left: 0;
+  max-height: 100dvh;
+  max-width: 100vw;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+
+.wl-subscribe-modal::backdrop {
+  background: color-mix(in oklch, var(--bg), transparent 30%);
+  backdrop-filter: blur(8px);
+}
+
+.wl-subscribe-modal[open] {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.wl-subscribe-modal-inner {
+  background: var(--bg-elev);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  color: var(--ink);
+  max-width: 560px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Restore native cursor inside dialog (body has cursor:none for custom cursor) */
+.wl-subscribe-modal,
+.wl-subscribe-modal * {
+  cursor: auto;
+}
+
+.wl-subscribe-modal button,
+.wl-subscribe-modal [role="button"] {
+  cursor: pointer;
+}
+
+.wl-subscribe-modal input {
+  cursor: text;
+}
+
+/* Header section — gradient tinted */
+.wl-subscribe-modal-head {
+  background: linear-gradient(135deg,
+    color-mix(in oklch, var(--accent), transparent 80%) 0%,
+    transparent 60%);
+  border-bottom: 1px solid var(--line);
+  padding: clamp(28px, 4vw, 44px) clamp(28px, 4vw, 44px) clamp(24px, 3vw, 36px);
+}
+
+.wl-subscribe-modal-meta {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.wl-subscribe-modal-close {
+  align-items: center;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-mute);
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 30px;
+  justify-content: center;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  width: 30px;
+}
+
+.wl-subscribe-modal-close:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.wl-subscribe-modal-title {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  margin: 0 0 16px;
+}
+
+.wl-subscribe-modal-title em {
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.wl-subscribe-modal-desc {
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Form section */
+.wl-subscribe-modal-body {
+  padding: clamp(24px, 3vw, 36px) clamp(28px, 4vw, 44px) clamp(28px, 4vw, 44px);
+}
+
+.wl-subscribe-modal-trust {
+  color: var(--ink-mute);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  margin: 14px 0 0;
+  text-transform: uppercase;
+}
+
+/* Decorative asterisk */
+.wl-subscribe-modal-deco {
+  bottom: -28px;
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-size: 140px;
+  line-height: 1;
+  opacity: 0.07;
+  pointer-events: none;
+  position: absolute;
+  right: 20px;
+  user-select: none;
+}
+
+/* ── Subscribe form (modal + inline) ─────────────────────── */
+
+.wl-subscribe-form {
+  display: grid;
+  gap: 10px;
+}
+
+.wl-subscribe-row {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.wl-subscribe-input {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  caret-color: var(--accent);
+  color: var(--ink);
+  cursor: text;
+  font-size: 15px;
+  min-width: 0;
+  outline: 0;
+  padding: 13px 16px;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  width: 100%;
+}
+
+.wl-subscribe-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent), transparent 82%);
+}
+
+.wl-subscribe-input::placeholder {
+  color: var(--ink-mute);
+}
+
+.wl-subscribe-btn-submit {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: var(--accent-ink);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 13px 22px;
+  text-transform: uppercase;
+  transition: opacity 0.2s var(--ease);
+  white-space: nowrap;
+}
+
+.wl-subscribe-btn-submit:hover {
+  opacity: 0.82;
+}
+
+.wl-subscribe-btn-submit:disabled {
+  cursor: wait;
+  opacity: 0.5;
+}
+
+/* ── Success & error states ───────────────────────────────── */
+
+.wl-subscribe-success {
+  align-items: center;
+  color: var(--accent);
+  display: flex;
+  gap: 12px;
+}
+
+.wl-subscribe-success p {
+  color: var(--ink-dim);
+  font-size: 15px;
+  margin: 0;
+}
+
+.wl-subscribe-error {
+  color: #e05858;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Footer variant states */
+.wl-subscribe-footer-success {
+  align-items: center;
+  color: var(--accent-ink);
+  display: flex;
+  gap: 12px;
+}
+
+.wl-subscribe-footer-success p {
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.wl-subscribe-footer-error {
+  color: color-mix(in oklch, var(--accent-ink), transparent 15%);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* ── Inline subscribe block (blog posts) ──────────────────── */
+
+.wl-blog-subscribe-section {
+  background: var(--bg-elev);
+  border-bottom: 1px solid var(--line);
+  padding: clamp(52px, 7vw, 96px) 0;
+}
+
+.wl-subscribe-inline {
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
+  padding: clamp(28px, 4vw, 52px);
+}
+
+.wl-subscribe-inline-copy .eyebrow {
+  margin-bottom: 16px;
+}
+
+.wl-subscribe-inline-title {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  margin: 0 0 14px;
+}
+
+.wl-subscribe-inline-desc {
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.wl-subscribe-inline-form {
+  align-self: center;
+}
+
+@media (max-width: 760px) {
+  .wl-subscribe-inline {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-subscribe-row {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-subscribe-btn-submit {
+    width: 100%;
+  }
+}
+
 /* --- Form inputs --- */
 .ds-input {
   width: 100%;

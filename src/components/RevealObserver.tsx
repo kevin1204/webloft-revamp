@@ -5,6 +5,13 @@ import { useEffect } from 'react';
 export default function RevealObserver() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>('.reveal');
+
+    // Fallback for browsers that don't support IntersectionObserver
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('in'));
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {

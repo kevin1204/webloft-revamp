@@ -72,31 +72,33 @@ export async function POST(request: NextRequest) {
     // ===== SPAM PROTECTION LAYER 3: Turnstile Verification =====
     if (!TURNSTILE_SECRET_KEY) {
       console.error('TURNSTILE_SECRET_KEY is not set in environment variables');
-      // Continue without Turnstile if not configured (for development)
-      // In production, you might want to return an error here
-    } else {
-      if (!turnstileToken) {
-        console.log('🚫 SPAM DETECTED: Missing Turnstile token');
-        return NextResponse.json(
-          { error: 'Security verification failed. Please refresh the page and try again.' },
-          { status: 400 }
-        );
-      }
+      return NextResponse.json(
+        { error: 'Security configuration error. Please contact us directly at info@webloftstudio.com' },
+        { status: 500 }
+      );
+    }
 
-      // Get client IP for Turnstile verification
-      const ip = request.headers.get('x-forwarded-for') || 
-                 request.headers.get('x-real-ip') || 
-                 'unknown';
+    if (!turnstileToken) {
+      console.log('🚫 SPAM DETECTED: Missing Turnstile token');
+      return NextResponse.json(
+        { error: 'Security verification failed. Please refresh the page and try again.' },
+        { status: 400 }
+      );
+    }
 
-      const isTurnstileValid = await verifyTurnstileToken(turnstileToken, ip);
-      
-      if (!isTurnstileValid) {
-        console.log('🚫 SPAM DETECTED: Invalid Turnstile token');
-        return NextResponse.json(
-          { error: 'Security verification failed. Please refresh the page and try again.' },
-          { status: 400 }
-        );
-      }
+    // Get client IP for Turnstile verification
+    const ip = request.headers.get('x-forwarded-for') ||
+               request.headers.get('x-real-ip') ||
+               'unknown';
+
+    const isTurnstileValid = await verifyTurnstileToken(turnstileToken, ip);
+
+    if (!isTurnstileValid) {
+      console.log('🚫 SPAM DETECTED: Invalid Turnstile token');
+      return NextResponse.json(
+        { error: 'Security verification failed. Please refresh the page and try again.' },
+        { status: 400 }
+      );
     }
 
     console.log('✅ All spam protection checks passed');
@@ -225,58 +227,40 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    console.log('Email data prepared:');
-    console.log('- Notification to:', notificationEmail.to);
-    console.log('- Reply-to:', notificationEmail.reply_to);
-    console.log('- Confirmation to:', confirmationEmail.to);
+    // Send notification email to you (required — failure returns an error to the user)
+    const notificationResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(notificationEmail),
+    });
 
-    // Send notification email to you
-    try {
-      const notificationResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(notificationEmail),
-      });
-
-      console.log('Notification email response status:', notificationResponse.status);
-
-      if (!notificationResponse.ok) {
-        const errorData = await notificationResponse.json().catch(() => ({ message: 'Failed to parse error response' }));
-        console.error('Notification email error:', errorData);
-      } else {
-        const result = await notificationResponse.json();
-        console.log('Notification email sent successfully:', result);
-      }
-    } catch (notificationError) {
-      console.error('Notification email sending error:', notificationError);
+    if (!notificationResponse.ok) {
+      const errorData = await notificationResponse.json().catch(() => ({}));
+      console.error('Notification email error:', errorData);
+      return NextResponse.json(
+        { error: 'Failed to send your message. Please try again or contact us directly at info@webloftstudio.com' },
+        { status: 500 }
+      );
     }
 
-    // Send confirmation email to user
-    try {
-      const confirmationResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(confirmationEmail),
-      });
+    console.log('Notification email sent successfully');
 
-      console.log('Confirmation email response status:', confirmationResponse.status);
-
-      if (!confirmationResponse.ok) {
-        const errorData = await confirmationResponse.json().catch(() => ({ message: 'Failed to parse error response' }));
-        console.error('Confirmation email error:', errorData);
-      } else {
-        const result = await confirmationResponse.json();
-        console.log('Confirmation email sent successfully:', result);
+    // Send confirmation email to user (best-effort — failure does not block success response)
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(confirmationEmail),
+    }).then((res) => {
+      if (!res.ok) {
+        res.json().catch(() => {}).then((err) => console.error('Confirmation email error:', err));
       }
-    } catch (confirmationError) {
-      console.error('Confirmation email sending error:', confirmationError);
-    }
+    }).catch((err) => console.error('Confirmation email sending error:', err));
 
     return NextResponse.json(
       { message: 'Message sent successfully! Check your email for confirmation.' },

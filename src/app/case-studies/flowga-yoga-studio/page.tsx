@@ -81,17 +81,17 @@ export default function FlowgaCaseStudyPage() {
     projectDuration: "4 weeks",
     projectImages: [
       {
-        src: "/PROJECTS/gallery/flowga-1-min.png",
+        src: "/PROJECTS/gallery/flowga-1.webp",
         alt: "Flowga Yoga Studio homepage design"
       },
       {
-        src: "/PROJECTS/gallery/flowga-2-min.png",
+        src: "/PROJECTS/gallery/flowga-2.webp",
         alt: "Mobile responsive design for yoga classes"
       }
     ],
     ctaText: "Start Your Project",
     ctaLink: "/contact",
-    featuredImage: "/PROJECTS/FLOWGA.png",
+    featuredImage: "/PROJECTS/flowga.webp",
     category: "Wellness & Fitness",
     date: "November 2024"
   };

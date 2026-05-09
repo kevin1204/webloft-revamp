@@ -80,33 +80,33 @@ export default function SportlinkCaseStudyPage() {
     projectDuration: "6 weeks",
     projectImages: [
       {
-        src: "/PROJECTS/gallery/sportlink1-min.png",
+        src: "/PROJECTS/gallery/sportlink1.webp",
         alt: "Sportlink Events registration platform"
       },
       {
-        src: "/PROJECTS/gallery/sportlink2-min.png",
+        src: "/PROJECTS/gallery/sportlink2.webp",
         alt: "Mobile-responsive event management"
       },
       {
-        src: "/PROJECTS/gallery/sportlink3-min.png",
+        src: "/PROJECTS/gallery/sportlink3.webp",
         alt: "Admin dashboard and participant management"
       },
       {
-        src: "/PROJECTS/gallery/sportlink4-min.png",
+        src: "/PROJECTS/gallery/sportlink4.webp",
         alt: "Event details and participant information"
       },
       {
-        src: "/PROJECTS/gallery/sportlink5-min.png",
+        src: "/PROJECTS/gallery/sportlink5.webp",
         alt: "Payment processing and confirmation system"
       },
       {
-        src: "/PROJECTS/gallery/sportlink6-min.png",
+        src: "/PROJECTS/gallery/sportlink6.webp",
         alt: "Mobile event registration interface"
       }
     ],
     ctaText: "Start Your Project",
     ctaLink: "/contact",
-    featuredImage: "/PROJECTS/SPORTLINK.png",
+    featuredImage: "/PROJECTS/sportlink.webp",
     category: "Events & Management",
     date: "September 2024"
   };

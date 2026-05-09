@@ -19,7 +19,7 @@ const CASES = [
     kpi: ['+180% inbound leads', '98 PageSpeed', '21-day launch'],
     blurb:
       'From outdated site to a sleek Webflow build with call tracking, instant SMS lead alerts, and local SEO that actually ranks.',
-    image: '/PROJECTS/gallery/amigo-contracting-1-min.png',
+    image: '/PROJECTS/gallery/amigo-contracting-1.webp',
     href: '/case-studies/amigo-contracting-services',
   },
   {
@@ -28,7 +28,7 @@ const CASES = [
     kpi: ['+300% online bookings', '3.2× session time', 'Fast delivery'],
     blurb:
       'A premium, calm visual system + booking-funnel landing pages turned cold traffic into a waitlist.',
-    image: '/PROJECTS/gallery/flowga-1-min.png',
+    image: '/PROJECTS/gallery/flowga-1.webp',
     href: '/case-studies/flowga-yoga-studio',
   },
   {
@@ -37,7 +37,7 @@ const CASES = [
     kpi: ['Improved UX', 'Mobile-first', 'SEO foundation'],
     blurb:
       'Clean, conversion-focused redesign that established a polished digital presence and improved user engagement.',
-    image: '/PROJECTS/gallery/aeries-1-min.png',
+    image: '/PROJECTS/gallery/aeries-1.webp',
     href: '/case-studies/aeries',
   },
 ];

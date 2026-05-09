@@ -12,9 +12,12 @@ import FAQSection from '@/components/home/FAQSection';
 import CTASection from '@/components/home/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Webloft Studio — Websites that convert',
+  title: 'Custom Web Design for Service Businesses | Webloft Studio',
   description:
     'Premium, conversion-focused websites for service businesses. Custom design, Webflow builds, SEO, landing pages, and lead capture — built to earn more customers.',
+  alternates: {
+    canonical: 'https://webloftstudio.com',
+  },
 };
 
 const structuredData = {

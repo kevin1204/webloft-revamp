@@ -12,7 +12,7 @@ const projects = [
     title: 'Amigo Contracting Services',
     description:
       'A professional construction services website with lead capture optimization, local SEO, service showcases, and a mobile-first contact flow.',
-    image: '/PROJECTS/gallery/amigo-contracting-1-min.png',
+    image: '/PROJECTS/gallery/amigo-contracting-1.webp',
     category: 'Construction',
     technologies: ['Webflow', 'CMS', 'SEO'],
     results: '+180% lead increase',
@@ -27,7 +27,7 @@ const projects = [
     title: 'Aeries',
     description:
       'A clean, responsive Webflow build with a polished content system and conversion-focused page structure for better engagement.',
-    image: '/PROJECTS/gallery/aeries-1-min.png',
+    image: '/PROJECTS/gallery/aeries-1.webp',
     category: 'Business',
     technologies: ['Webflow', 'Responsive Design'],
     results: 'Improved UX',
@@ -42,7 +42,7 @@ const projects = [
     title: 'Flowga Yoga Studio',
     description:
       'A wellness-focused website with a premium visual system, booking-led page flow, class content, and a calmer mobile experience.',
-    image: '/PROJECTS/gallery/flowga-1-min.png',
+    image: '/PROJECTS/gallery/flowga-1.webp',
     category: 'Wellness',
     technologies: ['Webflow', 'Booking System', 'CMS'],
     results: '+300% online bookings',
@@ -57,7 +57,7 @@ const projects = [
     title: 'Sportlink Events',
     description:
       'An event platform built to support registrations, participant information, and large-scale sporting event content.',
-    image: '/PROJECTS/gallery/sportlink1-min.png',
+    image: '/PROJECTS/gallery/sportlink1.webp',
     category: 'Events',
     technologies: ['Webflow', 'Registration System', 'Database'],
     results: '500+ participants managed',
@@ -72,7 +72,7 @@ const projects = [
     title: 'Lila Hart',
     description:
       'A refined portfolio website with strong art direction, smooth motion, and a simple structure for showcasing creative work.',
-    image: '/PROJECTS/gallery/lilahart3-min.png',
+    image: '/PROJECTS/gallery/lilahart3.webp',
     category: 'Portfolio',
     technologies: ['Webflow', 'Animations', 'Portfolio'],
     results: 'Enhanced brand presence',
@@ -294,12 +294,16 @@ export default function ProjectsPage() {
 
             <div className="projects-hero-visual reveal">
               <div className="projects-hero-glow" aria-hidden="true" />
-              <div className="projects-hero-back">
-                <BrowserFrame project={featuredProjects[1]} />
-              </div>
-              <div className="projects-hero-front">
-                <BrowserFrame project={featuredProjects[0]} priority />
-              </div>
+              {featuredProjects.length > 1 && (
+                <div className="projects-hero-back">
+                  <BrowserFrame project={featuredProjects[1]} />
+                </div>
+              )}
+              {featuredProjects.length > 0 && (
+                <div className="projects-hero-front">
+                  <BrowserFrame project={featuredProjects[0]} priority />
+                </div>
+              )}
             </div>
           </div>
         </div>

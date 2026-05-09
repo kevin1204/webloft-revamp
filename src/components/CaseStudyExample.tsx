@@ -64,24 +64,24 @@ export default function CaseStudyExample() {
     projectDuration: "4 weeks",
     projectImages: [
       {
-        src: "/PROJECTS/FLOWGA.png",
+        src: "/PROJECTS/flowga.webp",
         alt: "Bloom Wellness homepage design",
         caption: "Clean, modern homepage design with clear call-to-action"
       },
       {
-        src: "/PROJECTS/FLOWGA.png",
+        src: "/PROJECTS/flowga.webp",
         alt: "Mobile responsive design",
         caption: "Perfect mobile experience for on-the-go bookings"
       },
       {
-        src: "/PROJECTS/FLOWGA.png",
+        src: "/PROJECTS/flowga.webp",
         alt: "Online booking system",
         caption: "Intuitive booking system with real-time availability"
       }
     ],
     ctaText: "Start Your Project",
     ctaLink: "/contact",
-    featuredImage: "/PROJECTS/FLOWGA.png",
+    featuredImage: "/PROJECTS/flowga.webp",
     category: "E-commerce",
     date: "November 2024"
   };

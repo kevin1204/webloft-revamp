@@ -80,21 +80,21 @@ export default function AeriesCaseStudyPage() {
     projectDuration: "2 weeks",
     projectImages: [
       {
-        src: "/PROJECTS/gallery/aeries-1-min.png",
+        src: "/PROJECTS/gallery/aeries-1.webp",
         alt: "Aeries business homepage design"
       },
       {
-        src: "/PROJECTS/gallery/aeries-2-min.png",
+        src: "/PROJECTS/gallery/aeries-2.webp",
         alt: "Mobile responsive business website"
       },
       {
-        src: "/PROJECTS/gallery/aeries-3-min.png",
+        src: "/PROJECTS/gallery/aeries-3.webp",
         alt: "Smooth animations and interactions"
       }
     ],
     ctaText: "Start Your Project",
     ctaLink: "/contact",
-    featuredImage: "/PROJECTS/AERIES.png",
+    featuredImage: "/PROJECTS/aeries.webp",
     category: "Business",
     date: "October 2024"
   };
