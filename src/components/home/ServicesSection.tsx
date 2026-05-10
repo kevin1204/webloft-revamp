@@ -80,8 +80,8 @@ function ServiceRow({
   return (
     <div
       className="service-row reveal"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onPointerEnter={(e) => { if (e.pointerType === 'mouse') setOpen(true); }}
+      onPointerLeave={(e) => { if (e.pointerType === 'mouse') setOpen(false); }}
       onClick={() => setOpen((o) => !o)}
       style={{
         display: 'block',
