@@ -285,8 +285,22 @@ export default function ContactPage() {
       }
     };
 
+    const waitForTurnstile = () => {
+      if (windowWithTurnstile.turnstile) {
+        initWidget();
+      } else {
+        const interval = setInterval(() => {
+          if (windowWithTurnstile.turnstile) {
+            clearInterval(interval);
+            initWidget();
+          }
+        }, 100);
+      }
+    };
+
     if (document.querySelector('script[src*="turnstile"]')) {
-      initWidget();
+      // Script tag exists but may not have finished executing yet
+      waitForTurnstile();
       return;
     }
     const script = document.createElement('script');
