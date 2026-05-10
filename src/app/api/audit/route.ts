@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+/** Escape user-supplied strings before embedding them in HTML email bodies. */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -21,11 +31,19 @@ export async function POST(request: NextRequest) {
     }
 
     if (!process.env.RESEND_API_KEY) {
+      console.error('RESEND_API_KEY is not set in environment variables');
       return NextResponse.json(
         { error: 'Email service not configured. Please contact us directly at info@webloftstudio.com' },
         { status: 500 }
       );
     }
+
+    // Escape all user input before embedding in HTML
+    const safeName     = escapeHtml(name);
+    const safeEmail    = escapeHtml(email);
+    const safeBusiness = escapeHtml(business || '');
+    const safeWebsite  = escapeHtml(website || '');
+    const safePhone    = escapeHtml(phone || '');
 
     // Send notification to business
     const notificationResponse = await fetch('https://api.resend.com/emails', {
@@ -38,18 +56,18 @@ export async function POST(request: NextRequest) {
         from: 'info@webloftstudio.com',
         to: ['kevin.ortega2011@gmail.com', 'info@webloftstudio.com'],
         reply_to: email,
-        subject: `Free Website Audit Request from ${name}`,
+        subject: `Free Website Audit Request from ${safeName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #009E69;">New Free Website Audit Request</h2>
             <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <p><strong>Name:</strong> ${name}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Business:</strong> ${business || 'Not provided'}</p>
-              <p><strong>Website:</strong> ${website || 'Not provided'}</p>
-              <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+              <p><strong>Name:</strong> ${safeName}</p>
+              <p><strong>Email:</strong> ${safeEmail}</p>
+              <p><strong>Business:</strong> ${safeBusiness || 'Not provided'}</p>
+              <p><strong>Website:</strong> ${safeWebsite || 'Not provided'}</p>
+              <p><strong>Phone:</strong> ${safePhone || 'Not provided'}</p>
             </div>
-            <p style="color: #009E69; font-weight: bold;">Reply to this email to respond to ${name}.</p>
+            <p style="color: #009E69; font-weight: bold;">Reply to this email to respond to ${safeName}.</p>
           </div>
         `,
       }),
@@ -64,7 +82,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Send confirmation to the user (non-blocking — failure doesn't affect response)
+    // Send confirmation to the user (best-effort — failure doesn't affect response)
     fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -78,8 +96,8 @@ export async function POST(request: NextRequest) {
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #009E69;">Your Website Audit Request is Confirmed!</h2>
-            <p>Hi ${name},</p>
-            <p>Thanks for requesting your free website audit! Our team will review${website ? ` <strong>${website}</strong>` : ' your website'} and send you a comprehensive audit report within 24–48 hours.</p>
+            <p>Hi ${safeName},</p>
+            <p>Thanks for requesting your free website audit! Our team will review${safeWebsite ? ` <strong>${safeWebsite}</strong>` : ' your website'} and send you a comprehensive audit report within 24–48 hours.</p>
             <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="color: #333; margin-top: 0;">What happens next?</h3>
               <ul>
@@ -101,7 +119,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Audit form error:', error);
+    console.error('Audit form unexpected error:', error instanceof Error ? error.message : error);
     return NextResponse.json(
       { error: 'Failed to process request. Please try again or contact us directly at info@webloftstudio.com' },
       { status: 500 }

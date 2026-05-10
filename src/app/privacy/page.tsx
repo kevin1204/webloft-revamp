@@ -7,111 +7,137 @@ export const metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-r from-green-50 to-emerald-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-20 pb-16" style={{ background: 'var(--bg)' }}>
+        <div className="ds-container">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Privacy Policy
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="eyebrow mb-4">Legal</p>
+            <h1 className="h-1 mb-6">Privacy Policy</h1>
+            <p className="body-lg" style={{ color: 'var(--ink-dim)' }}>
               Last updated: January 15, 2025
             </p>
           </div>
         </div>
       </section>
 
+      <div className="hairline" />
+
       {/* Content */}
       <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="ds-container max-w-4xl">
           <div className="prose prose-lg max-w-none">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="h-2 mb-6">
               Information We Collect
             </h2>
-            <p className="text-gray-600 mb-6">
-              We collect information you provide directly to us, such as when you create an account, 
-              make a purchase, or contact us for support. This may include your name, email address, 
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+              We collect information you provide directly to us, such as when you create an account,
+              make a purchase, or contact us for support. This may include your name, email address,
               phone number, company information, and project details.
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               How We Use Your Information
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="body mb-4" style={{ color: 'var(--ink-dim)' }}>
               We use the information we collect to:
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-2">
-              <li>Provide, maintain, and improve our services</li>
-              <li>Process transactions and send related information</li>
-              <li>Send technical notices, updates, and support messages</li>
-              <li>Respond to your comments and questions</li>
-              <li>Communicate with you about products, services, and events</li>
+            <ul className="space-y-2 mb-6 pl-4">
+              {[
+                'Provide, maintain, and improve our services',
+                'Process transactions and send related information',
+                'Send technical notices, updates, and support messages',
+                'Respond to your comments and questions',
+                'Communicate with you about products, services, and events',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 body" style={{ color: 'var(--ink-dim)' }}>
+                  <span style={{ color: 'var(--accent)', marginTop: '0.125rem' }}>—</span>
+                  {item}
+                </li>
+              ))}
             </ul>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Information Sharing
             </h2>
-            <p className="text-gray-600 mb-6">
-              We do not sell, trade, or otherwise transfer your personal information to third parties 
-              without your consent, except as described in this policy. We may share your information 
+            <p className="body mb-4" style={{ color: 'var(--ink-dim)' }}>
+              We do not sell, trade, or otherwise transfer your personal information to third parties
+              without your consent, except as described in this policy. We may share your information
               in the following circumstances:
             </p>
-            <ul className="list-disc list-inside text-gray-600 mb-6 space-y-2">
-              <li>With your consent</li>
-              <li>To comply with legal obligations</li>
-              <li>To protect our rights and prevent fraud</li>
-              <li>With service providers who assist us in operating our business</li>
+            <ul className="space-y-2 mb-6 pl-4">
+              {[
+                'With your consent',
+                'To comply with legal obligations',
+                'To protect our rights and prevent fraud',
+                'With service providers who assist us in operating our business',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 body" style={{ color: 'var(--ink-dim)' }}>
+                  <span style={{ color: 'var(--accent)', marginTop: '0.125rem' }}>—</span>
+                  {item}
+                </li>
+              ))}
             </ul>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Data Security
             </h2>
-            <p className="text-gray-600 mb-6">
-              We implement appropriate security measures to protect your personal information against 
-              unauthorized access, alteration, disclosure, or destruction. However, no method of 
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+              We implement appropriate security measures to protect your personal information against
+              unauthorized access, alteration, disclosure, or destruction. However, no method of
               transmission over the internet or electronic storage is 100% secure.
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Cookies and Tracking
             </h2>
-            <p className="text-gray-600 mb-6">
-              We use cookies and similar tracking technologies to enhance your experience on our website. 
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+              We use cookies and similar tracking technologies to enhance your experience on our website.
               You can control cookie settings through your browser preferences.
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Your Rights
             </h2>
-            <p className="text-gray-600 mb-6">
-              You have the right to access, update, or delete your personal information. You may also 
-              opt out of certain communications from us. To exercise these rights, please contact us 
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+              You have the right to access, update, or delete your personal information. You may also
+              opt out of certain communications from us. To exercise these rights, please contact us
               using the information provided below.
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Changes to This Policy
             </h2>
-            <p className="text-gray-600 mb-6">
-              We may update this privacy policy from time to time. We will notify you of any changes 
-              by posting the new policy on this page and updating the "Last updated" date.
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+              We may update this privacy policy from time to time. We will notify you of any changes
+              by posting the new policy on this page and updating the &ldquo;Last updated&rdquo; date.
             </p>
 
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 mt-12">
+            <div className="hairline my-10" />
+
+            <h2 className="h-2 mb-6">
               Contact Us
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
               If you have any questions about this privacy policy, please contact us:
             </p>
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <p className="text-gray-700 mb-2">
+            <div className="ds-card p-6">
+              <p className="body mb-2" style={{ color: 'var(--ink)' }}>
                 <strong>Email:</strong> info@webloftstudio.com
               </p>
-              <p className="text-gray-700 mb-2">
-                <strong>Email:</strong> info@webloftstudio.com
-              </p>
-              <p className="text-gray-700">
+              <p className="body" style={{ color: 'var(--ink)' }}>
                 <strong>Website:</strong> webloftstudio.com
               </p>
             </div>
@@ -119,16 +145,18 @@ export default function PrivacyPolicy() {
         </div>
       </section>
 
+      <div className="hairline" />
+
       {/* CTA Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+      <section className="py-20" style={{ background: 'var(--bg-elev)' }}>
+        <div className="ds-container max-w-4xl text-center">
+          <h2 className="h-2 mb-6">
             Questions About Our Privacy Policy?
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            We're here to help. Contact us if you have any questions about how we handle your data.
+          <p className="body-lg mb-8" style={{ color: 'var(--ink-dim)' }}>
+            We&apos;re here to help. Contact us if you have any questions about how we handle your data.
           </p>
-          <Link href="/contact" className="btn-primary text-lg px-8 py-4">
+          <Link href="/contact" className="ds-btn ds-btn-primary text-lg px-8 py-4">
             Contact Us
           </Link>
         </div>

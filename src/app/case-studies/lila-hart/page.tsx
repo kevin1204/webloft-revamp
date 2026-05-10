@@ -66,7 +66,7 @@ export default function LilaHartCaseStudyPage() {
       author: "Lila Hart",
       title: "Creative Professional",
       company: "Lila Hart Creative",
-      avatar: "/avatar5.jpg"
+      avatar: "/avatar3.jpg"
     },
     technologies: [
       "Webflow",

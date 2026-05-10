@@ -185,16 +185,6 @@ body {
 }
 
 /* Enhanced Animation Classes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 @keyframes fadeInLeft {
   from {
@@ -290,9 +280,6 @@ body {
 }
 
 /* Animation utility classes */
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
 
 .animate-fade-in-left {
   animation: fadeInLeft 0.6s ease-out;
@@ -570,16 +557,6 @@ section[class*="h-screen"] {
 }
 
 /* Enhanced animations for redesigned sections */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 @keyframes slideInFromBottom {
   from {

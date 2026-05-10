@@ -2,65 +2,99 @@ import Link from 'next/link';
 
 function CheckIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" style={{ flexShrink: 0, marginTop: 4 }}>
-      <path d="M2 7.5L5.5 11L12 3" stroke="var(--accent)" strokeWidth="1.6" fill="none" strokeLinecap="square" />
+    <svg width="14" height="14" viewBox="0 0 14 14" style={{ flexShrink: 0, marginTop: 3 }}>
+      <path
+        d="M2 7.5L5.5 11L12 3"
+        stroke="var(--accent)"
+        strokeWidth="1.6"
+        fill="none"
+        strokeLinecap="square"
+      />
     </svg>
   );
 }
 
 function ArrowIcon() {
   return (
-    <svg className="ds-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M3 11L11 3M11 3H4.5M11 3V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    <svg
+      className="ds-arrow"
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 11L11 3M11 3H4.5M11 3V9.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="square"
+      />
     </svg>
   );
 }
 
 const TIERS = [
   {
-    name: 'Launch',
-    price: '$3,400',
-    sub: 'One-page landing site',
+    name: 'Starter',
+    tag: null,
+    monthlyPrice: '$199',
+    monthlyCurrency: 'CAD',
+    monthlyPer: '/ month',
+    monthlySub: 'hosting, maintenance & updates included',
+    setupPrice: '$899 CAD',
+    setupSub: 'one-time setup fee',
+    tagline: 'A clean, professional presence for businesses that need to show up online — nothing complicated, nothing extra.',
     bullets: [
-      'Custom design',
-      'Single landing page',
-      'Lead form + automated alerts',
-      'GA4 + tracking',
-      'On-page SEO',
-      '21-day delivery',
+      '1 to 3 page website',
+      'Custom design, fully mobile responsive',
+      'Basic contact form & on-page SEO',
+      'SSL, hosting & basic maintenance',
+      'Small text and image updates included',
     ],
-    cta: 'Start with Launch',
+    cta: 'Get started',
     featured: false,
   },
   {
-    name: 'Studio',
-    price: '$6,800',
-    sub: 'Full website, 5–8 pages',
+    name: 'Growth',
+    tag: 'Most popular',
+    monthlyPrice: '$399',
+    monthlyCurrency: 'CAD',
+    monthlyPer: '/ month',
+    monthlySub: 'billed monthly, cancel anytime',
+    setupPrice: 'from $1,299 CAD',
+    setupSub: 'one-time setup fee',
+    tagline: 'For businesses ready to capture leads, rank locally, and stop losing customers to competitors.',
     bullets: [
-      'Everything in Launch',
-      '5–8 page site + CMS',
-      'Custom design system',
-      'Premium photography direction',
-      'Schema + technical SEO',
-      'Optional AI chatbot',
-      '30-day delivery',
+      'Everything in Starter, plus:',
+      'Up to 6 pages with service detail pages',
+      'Lead capture form + CRM integration',
+      'Automated follow-up emails to new leads',
+      'Local SEO, Analytics & Search Console setup',
+      'Monthly performance report',
     ],
-    cta: 'Start with Studio',
+    cta: 'Get started',
     featured: true,
   },
   {
-    name: 'Atelier',
-    price: 'From $14,000',
-    sub: 'Custom build, no ceiling',
+    name: 'Ultra',
+    tag: null,
+    monthlyPrice: '$899',
+    monthlyCurrency: 'CAD',
+    monthlyPer: '/ month',
+    monthlySub: 'billed monthly, cancel anytime',
+    setupPrice: 'from $1,499 CAD',
+    setupSub: 'one-time setup fee',
+    tagline: 'A full digital growth system — website, automation, AI, and SEO working together. Ads management available as a separate add-on.',
     bullets: [
-      'Bespoke scope',
-      'Animation & motion design',
-      'Multi-location / multi-language',
-      'Bookings, payments, dashboards',
-      'Conversion strategy retainer',
-      'Senior-led, end-to-end',
+      'Everything in Growth, plus:',
+      'AI chatbot (questions & bookings)',
+      'Missed-call text-back automation',
+      '2 SEO blog posts per month',
+      'Advanced CRM workflows & automations',
+      'Monthly strategy call & priority support',
     ],
-    cta: 'Talk to us',
+    cta: 'Get started',
     featured: false,
   },
 ];
@@ -74,7 +108,37 @@ export default function PricingSection() {
         paddingBottom: 'var(--section-y)',
       }}
     >
+      <style>{`
+        .home-pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          align-items: start;
+        }
+        .home-pricing-intro-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 48px;
+          align-items: end;
+          margin-bottom: 64px;
+        }
+        @media (max-width: 960px) {
+          .home-pricing-grid {
+            grid-template-columns: 1fr;
+          }
+          .home-pricing-intro-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+          }
+          .home-pricing-intro-copy {
+            justify-self: start !important;
+          }
+        }
+      `}</style>
+
       <div className="ds-container">
+        {/* Header row */}
         <div
           className="reveal"
           style={{
@@ -100,106 +164,191 @@ export default function PricingSection() {
           </div>
         </div>
 
-        <div
-          className="pricing-intro-grid"
-          style={{
-            marginBottom: 80,
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 1fr',
-            gap: 48,
-            alignItems: 'end',
-          }}
-        >
+        {/* Intro */}
+        <div className="home-pricing-intro-grid">
           <h2 className="h-1 reveal">
-            Fixed scopes. <br />
+            Simple pricing.{' '}
             <span className="italic-serif" style={{ color: 'var(--accent)' }}>
-              No surprise
-            </span>{' '}
-            invoices.
+              No surprises.
+            </span>
           </h2>
-          <p className="body-lg reveal pricing-intro-copy" style={{ maxWidth: 440, justifySelf: 'end' }}>
-            Three starting points — pick the one closest to where you are, and we&apos;ll shape
-            the rest on the discovery call.
+          <p
+            className="body-lg reveal home-pricing-intro-copy"
+            style={{ maxWidth: 440, justifySelf: 'end' }}
+          >
+            Choose the plan that fits your business. No hidden fees, no
+            lock-in contracts.
           </p>
         </div>
 
-        <div
-          className="pricing-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 0,
-            borderTop: '1px solid var(--line)',
-          }}
-        >
-          {TIERS.map((t, i) => (
+        {/* Cards */}
+        <div className="home-pricing-grid">
+          {TIERS.map((t) => (
             <div
               key={t.name}
               className="reveal"
               style={{
-                borderRight: i < TIERS.length - 1 ? '1px solid var(--line)' : 'none',
-                borderBottom: '1px solid var(--line)',
-                padding: t.featured ? 48 : 40,
-                background: t.featured ? 'var(--bg-elev-2)' : 'transparent',
+                border: t.featured
+                  ? '1px solid color-mix(in oklch, var(--accent), transparent 50%)'
+                  : '1px solid var(--line)',
+                borderRadius: 'var(--r-lg)',
+                background: t.featured
+                  ? 'color-mix(in oklch, var(--bg-elev-2), color-mix(in oklch, var(--accent), transparent 92%) 30%)'
+                  : 'var(--bg-elev)',
+                padding: 'clamp(28px, 3vw, 40px)',
                 display: 'flex',
                 flexDirection: 'column',
                 position: 'relative',
-                minHeight: 540,
               }}
             >
-              {t.featured && (
+              {/* Tag */}
+              {t.tag && (
                 <div
                   style={{
-                    position: 'absolute',
-                    top: 24,
-                    right: 24,
-                    padding: '6px 12px',
-                    borderRadius: 99,
-                    background: 'var(--accent)',
-                    color: 'var(--accent-ink)',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 10,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    marginBottom: 16,
                   }}
                 >
-                  Most popular
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: 99,
+                      background: 'var(--accent)',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 10,
+                      color: 'var(--accent)',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {t.tag}
+                  </span>
                 </div>
               )}
+
+              {/* Plan name */}
               <div
                 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: 24,
-                  letterSpacing: '-0.01em',
-                  color: 'var(--ink)',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--ink-mute)',
+                  marginBottom: !t.tag ? 22 : 6,
                 }}
               >
                 {t.name}
               </div>
-              <div className="body-sm" style={{ marginTop: 4 }}>
-                {t.sub}
+
+              {/* Monthly price — PRIMARY */}
+              <div style={{ marginBottom: 16 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    gap: 4,
+                    lineHeight: 1,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(38px, 4vw, 52px)',
+                      fontWeight: 700,
+                      letterSpacing: '-0.04em',
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    {t.monthlyPrice}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: 'var(--ink-mute)',
+                    }}
+                  >
+                    {t.monthlyCurrency}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--ink-dim)',
+                    marginTop: 2,
+                  }}
+                >
+                  {t.monthlyPer}
+                </div>
+                <div className="body-sm" style={{ color: 'var(--ink-mute)', marginTop: 3 }}>
+                  {t.monthlySub}
+                </div>
               </div>
+
+              {/* Setup fee — SECONDARY */}
               <div
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(40px, 4vw, 64px)',
-                  letterSpacing: '-0.03em',
-                  marginTop: 32,
-                  lineHeight: 1,
-                  color: 'var(--ink)',
+                  display: 'inline-flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  alignSelf: 'flex-start',
+                  padding: '8px 12px',
+                  borderRadius: 6,
+                  background: 'color-mix(in oklch, var(--line), transparent 20%)',
+                  marginBottom: 20,
                 }}
               >
-                {t.price}
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: 'var(--ink)',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  {t.setupPrice}
+                </span>
+                <span className="body-sm" style={{ color: 'var(--ink-mute)' }}>
+                  {t.setupSub}
+                </span>
               </div>
-              <div className="hairline" style={{ margin: '32px 0' }} />
+
+              {/* Tagline */}
+              <div
+                className="body-sm"
+                style={{
+                  color: 'var(--ink-mute)',
+                  lineHeight: 1.65,
+                  marginBottom: 24,
+                }}
+              >
+                {t.tagline}
+              </div>
+
+              <div className="hairline" style={{ marginBottom: 20 }} />
+
+              {/* Feature bullets */}
               <ul
                 style={{
                   listStyle: 'none',
                   padding: 0,
-                  margin: 0,
+                  margin: '0 0 auto',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 14,
+                  gap: 10,
                 }}
               >
                 {t.bullets.map((b) => (
@@ -208,7 +357,7 @@ export default function PricingSection() {
                     style={{
                       display: 'flex',
                       alignItems: 'flex-start',
-                      gap: 12,
+                      gap: 10,
                       fontSize: 14,
                       color: 'var(--ink-dim)',
                     }}
@@ -218,15 +367,72 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
+
+              {/* CTA */}
               <Link
                 href="/contact"
                 className={`ds-btn ${t.featured ? 'ds-btn-primary' : 'ds-btn-ghost'}`}
-                style={{ marginTop: 'auto', justifyContent: 'center' }}
+                style={{
+                  marginTop: 28,
+                  justifyContent: 'center',
+                  ...(t.featured
+                    ? { boxShadow: '0 0 24px color-mix(in oklch, var(--accent), transparent 55%)' }
+                    : {}),
+                }}
               >
                 {t.cta} <ArrowIcon />
               </Link>
             </div>
           ))}
+        </div>
+
+        {/* Custom Build note */}
+        <div
+          className="reveal"
+          style={{
+            marginTop: 20,
+            border: '1px dashed color-mix(in oklch, var(--line-strong), transparent 30%)',
+            borderRadius: 'var(--r-lg)',
+            padding: '28px 32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 20,
+          }}
+        >
+          <div>
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 18,
+                fontWeight: 600,
+                color: 'var(--ink)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              Custom Build
+            </span>
+            <span
+              className="body-sm"
+              style={{ color: 'var(--ink-mute)', marginLeft: 16 }}
+            >
+              From $2,000 CAD · one-time · you own everything outright.
+            </span>
+          </div>
+          <Link href="/contact" className="ds-btn ds-btn-ghost">
+            Let&apos;s talk <ArrowIcon />
+          </Link>
+        </div>
+
+        {/* See full pricing page */}
+        <div
+          className="reveal"
+          style={{ display: 'flex', justifyContent: 'center', marginTop: 48 }}
+        >
+          <Link href="/pricing" className="ds-btn ds-btn-ghost">
+            See full pricing &amp; plan details <ArrowIcon />
+          </Link>
         </div>
       </div>
     </section>

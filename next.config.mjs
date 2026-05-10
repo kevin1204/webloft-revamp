@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
     formats: ['image/webp', 'image/avif'],
+    qualities: [75, 100],
   },
   // Ensure proper SEO
   trailingSlash: false,

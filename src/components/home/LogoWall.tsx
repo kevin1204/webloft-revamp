@@ -1,8 +1,7 @@
 'use client';
 
 const LOGOS = [
-  'NORTHSIDE', 'MERIDIAN', 'CASCADE', 'FERN & OAK',
-  'OBELISK', 'RENWICK', 'HARBOR CO.', 'ATLAS BUILT',
+  'FLOWGA', 'AMIGO CONTRACTING', 'AERIES', 'SPORTLINK EVENTS', 'LILA HART',
 ];
 
 export default function LogoWall() {

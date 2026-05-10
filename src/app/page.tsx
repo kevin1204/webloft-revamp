@@ -31,7 +31,8 @@ const structuredData = {
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'CA',
-    addressLocality: 'Toronto',
+    addressRegion: 'ON',
+    addressLocality: 'London',
   },
   areaServed: [
     { '@type': 'Country', name: 'Canada' },

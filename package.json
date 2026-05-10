@@ -9,10 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "next": "15.5.9",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
+  "browserslist": [
+    "chrome >= 91",
+    "firefox >= 90",
+    "safari >= 15",
+    "edge >= 91"
+  ],
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",

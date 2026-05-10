@@ -66,7 +66,7 @@ export default function SportlinkCaseStudyPage() {
       author: "Jennifer Martinez",
       title: "Event Director",
       company: "Sportlink Events",
-      avatar: "/avatar4.jpg"
+      avatar: "/avatar3.jpg"
     },
     technologies: [
       "Webflow",

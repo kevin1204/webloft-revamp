@@ -42,7 +42,7 @@ export default function AboutPage() {
                   textTransform: 'uppercase',
                 }}
               >
-                Founded 2022 · Toronto + Remote
+                Founded 2022 · London, ON + Remote
               </div>
             </div>
 

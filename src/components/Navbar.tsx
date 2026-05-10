@@ -15,6 +15,7 @@ function ArrowIcon() {
 const navLinks = [
   { label: 'Work', href: '/projects' },
   { label: 'Services', href: '/services' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
@@ -29,6 +30,14 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && menuOpen) setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
 
   return (
     <header
@@ -112,6 +121,7 @@ export default function Navbar() {
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
           style={{
             display: 'none',
             background: 'none',
@@ -135,6 +145,9 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div
+          id="mobile-menu"
+          role="dialog"
+          aria-label="Navigation menu"
           style={{
             background: 'var(--bg-elev)',
             borderTop: '1px solid var(--line)',

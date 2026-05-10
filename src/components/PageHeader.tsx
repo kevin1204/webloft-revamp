@@ -39,7 +39,7 @@ export default function PageHeader({ kicker, index, title, italic, blurb }: Page
         </div>
 
         <h1
-          className="h-display reveal"
+          className="h-display"
           style={{ fontSize: 'clamp(56px, 8vw, 144px)' }}
         >
           {title}
@@ -54,7 +54,7 @@ export default function PageHeader({ kicker, index, title, italic, blurb }: Page
         </h1>
 
         {blurb && (
-          <p className="body-lg reveal" style={{ marginTop: 48, maxWidth: 640 }}>
+          <p className="body-lg" style={{ marginTop: 48, maxWidth: 640 }}>
             {blurb}
           </p>
         )}

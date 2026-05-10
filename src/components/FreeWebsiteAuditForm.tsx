@@ -53,37 +53,36 @@ export default function FreeWebsiteAuditForm() {
     });
   };
 
+  const inputClass = `w-full px-4 py-3 rounded-lg border body outline-none transition-colors`;
+  const inputStyle = {
+    background: 'var(--bg-elev-2)',
+    borderColor: 'var(--line)',
+    color: 'var(--ink)',
+  };
+
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-12">
-            <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="ds-card p-8 md:p-12">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: 'var(--bg-elev-2)' }}>
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--accent)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Thank You!
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+            <h1 className="h-2 mb-4">Thank You!</h1>
+            <p className="body-lg mb-6" style={{ color: 'var(--ink-dim)' }}>
               Your free website audit checklist is on its way to your inbox.
             </p>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">
-              Check your email (including spam folder) for your comprehensive website audit checklist. 
-              We'll also send you valuable tips to improve your website's performance.
+            <p className="body mb-8" style={{ color: 'var(--ink-dim)' }}>
+              Check your email (including spam folder) for your comprehensive website audit checklist.
+              We&apos;ll also send you valuable tips to improve your website&apos;s performance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/contact" 
-                className="bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200"
-              >
+              <Link href="/contact" className="ds-btn ds-btn-primary">
                 Get Professional Help
               </Link>
-              <Link 
-                href="/" 
-                className="border border-green-600 text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-green-50 dark:hover:bg-green-900/30 transition-colors duration-200"
-              >
+              <Link href="/" className="ds-btn ds-btn-ghost">
                 Back to Home
               </Link>
             </div>
@@ -94,24 +93,22 @@ export default function FreeWebsiteAuditForm() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-20 pb-16" style={{ background: 'var(--bg)' }}>
+        <div className="ds-container">
           <div className="text-center mb-12">
-            <div className="inline-block bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              🎯 Free Professional Analysis
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Get Your Free
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600"> Website Audit</span>
+            <div className="eyebrow mb-6">Free Professional Analysis</div>
+            <h1 className="h-1 mb-6">
+              Get Your Free{' '}
+              <span style={{ color: 'var(--accent)' }}>Website Audit</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
-              Discover exactly what's hurting your website's performance and how to fix it. 
-              <strong className="text-green-600"> No strings attached.</strong>
+            <p className="body-lg max-w-4xl mx-auto mb-8" style={{ color: 'var(--ink-dim)' }}>
+              Discover exactly what&apos;s hurting your website&apos;s performance and how to fix it.{' '}
+              <strong style={{ color: 'var(--ink)' }}>No strings attached.</strong>
             </p>
-            <div className="flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">
-              <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center justify-center gap-2 body" style={{ color: 'var(--ink-mute)' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--accent)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <span>100% Free • No Credit Card Required • Instant Access</span>
@@ -122,21 +119,19 @@ export default function FreeWebsiteAuditForm() {
 
       {/* Main Content */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="ds-container">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Column - Form */}
             <div className="order-2 lg:order-1">
-              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 md:p-10">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                  Get Your Free Audit Checklist
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 mb-8">
-                  Fill out the form below and we'll send you our comprehensive website audit checklist 
+              <div className="ds-card p-8 md:p-10">
+                <h2 className="h-3 mb-4">Get Your Free Audit Checklist</h2>
+                <p className="body mb-8" style={{ color: 'var(--ink-dim)' }}>
+                  Fill out the form below and we&apos;ll send you our comprehensive website audit checklist
                   that covers all the essential elements of a high-performing website.
                 </p>
 
                 {errorMessage && (
-                  <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm">
+                  <div className="mb-6 p-4 rounded-lg body text-sm" style={{ background: 'var(--bg-elev-2)', borderLeft: '3px solid #ef4444', color: 'var(--ink)' }}>
                     {errorMessage}
                   </div>
                 )}
@@ -153,8 +148,9 @@ export default function FreeWebsiteAuditForm() {
                     autoComplete="off"
                     aria-hidden="true"
                   />
+
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="name" className="block body mb-2" style={{ color: 'var(--ink-dim)' }}>
                       Full Name *
                     </label>
                     <input
@@ -164,13 +160,14 @@ export default function FreeWebsiteAuditForm() {
                       required
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className={inputClass}
+                      style={inputStyle}
                       placeholder="Enter your full name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="email" className="block body mb-2" style={{ color: 'var(--ink-dim)' }}>
                       Email Address *
                     </label>
                     <input
@@ -180,13 +177,14 @@ export default function FreeWebsiteAuditForm() {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className={inputClass}
+                      style={inputStyle}
                       placeholder="Enter your email address"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="business" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="business" className="block body mb-2" style={{ color: 'var(--ink-dim)' }}>
                       Business Name
                     </label>
                     <input
@@ -195,13 +193,14 @@ export default function FreeWebsiteAuditForm() {
                       name="business"
                       value={formData.business}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className={inputClass}
+                      style={inputStyle}
                       placeholder="Enter your business name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="website" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="website" className="block body mb-2" style={{ color: 'var(--ink-dim)' }}>
                       Website URL
                     </label>
                     <input
@@ -210,13 +209,14 @@ export default function FreeWebsiteAuditForm() {
                       name="website"
                       value={formData.website}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className={inputClass}
+                      style={inputStyle}
                       placeholder="https://yourwebsite.com"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="phone" className="block body mb-2" style={{ color: 'var(--ink-dim)' }}>
                       Phone Number
                     </label>
                     <input
@@ -225,7 +225,8 @@ export default function FreeWebsiteAuditForm() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className={inputClass}
+                      style={inputStyle}
                       placeholder="Enter your phone number"
                     />
                   </div>
@@ -233,11 +234,12 @@ export default function FreeWebsiteAuditForm() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-2"
+                    className="ds-btn ds-btn-primary w-full justify-center"
+                    style={{ opacity: isSubmitting ? 0.6 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
                   >
                     {isSubmitting ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -254,7 +256,7 @@ export default function FreeWebsiteAuditForm() {
                   </button>
                 </form>
 
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 text-center">
+                <p className="body mt-4 text-center" style={{ color: 'var(--ink-mute)', fontSize: '0.75rem' }}>
                   We respect your privacy. Unsubscribe at any time.
                 </p>
               </div>
@@ -262,223 +264,103 @@ export default function FreeWebsiteAuditForm() {
 
             {/* Right Column - Benefits */}
             <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-8">
-                What's Included in Your Free Audit?
-              </h2>
+              <h2 className="h-2 mb-8">What&apos;s Included in Your Free Audit?</h2>
 
               <div className="space-y-6 mb-12">
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+                {[
+                  { title: 'Performance Analysis', desc: 'Page speed, mobile responsiveness, and core web vitals assessment' },
+                  { title: 'SEO Health Check', desc: 'Meta tags, heading structure, keyword optimization, and search visibility' },
+                  { title: 'User Experience Review', desc: 'Navigation, content structure, and conversion optimization opportunities' },
+                  { title: 'Security & Technical Issues', desc: 'SSL certificates, broken links, and technical optimization recommendations' },
+                  { title: 'Action Plan & Next Steps', desc: 'Prioritized recommendations with clear action items to improve your website' },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0" style={{ background: 'var(--bg-elev-2)', border: '1px solid var(--line)' }}>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--accent)' }}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="h-3 mb-2" style={{ fontSize: '1.1rem' }}>{item.title}</h3>
+                      <p className="body" style={{ color: 'var(--ink-dim)' }}>{item.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      Performance Analysis
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Page speed, mobile responsiveness, and core web vitals assessment
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      SEO Health Check
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Meta tags, heading structure, keyword optimization, and search visibility
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      User Experience Review
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Navigation, content structure, and conversion optimization opportunities
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      Security & Technical Issues
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      SSL certificates, broken links, and technical optimization recommendations
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                      Action Plan & Next Steps
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Prioritized recommendations with clear action items to improve your website
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
 
               {/* Trust Signals */}
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Trusted by 500+ Businesses
-                </h3>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">4.9/5 rating</span>
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  "The audit helped us identify critical issues we didn't know existed. 
-                  Our website performance improved by 40% after implementing their recommendations."
+              <div className="ds-card p-6">
+                <h3 className="h-3 mb-3">Real audits. Real results.</h3>
+                <p className="body mb-4" style={{ color: 'var(--ink-dim)', fontSize: '0.9rem' }}>
+                  Every audit is done manually by our team — not a generic checklist generator. We review your actual site and send you a prioritised report with clear next steps.
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">- Sarah M., Business Owner</p>
+                <p className="body" style={{ color: 'var(--ink-dim)', fontSize: '0.9rem' }}>
+                  See the quality of our work in our{' '}
+                  <a href="/case-studies/flowga-yoga-studio" style={{ color: 'var(--accent)' }} className="underline">Flowga Yoga Studio</a>{' '}
+                  and{' '}
+                  <a href="/case-studies/amigo-contracting-services" style={{ color: 'var(--accent)' }} className="underline">Amigo Contracting</a>{' '}
+                  case studies.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Case Studies Section */}
+      <section className="py-20" style={{ background: 'var(--bg-elev)' }}>
+        <div className="ds-container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              What Our Clients Say
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what business owners say about our website audits.
+            <h2 className="h-2 mb-6">What a Good Website Does</h2>
+            <p className="body-lg max-w-3xl mx-auto" style={{ color: 'var(--ink-dim)' }}>
+              See what we fixed — and what changed — for two real clients.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg">
-              <div className="flex text-yellow-400 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                "The free audit was incredibly detailed and helped us understand exactly what was wrong with our website. 
-                We implemented their recommendations and saw immediate improvements in our search rankings."
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="ds-card p-8">
+              <div className="eyebrow mb-3">Case Study</div>
+              <h3 className="h-3 mb-3">Flowga Yoga Studio</h3>
+              <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+                Replaced an outdated template site with a conversion-focused redesign. Clearer booking flow,
+                faster load times, and local SEO improvements.
               </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">MJ</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">Sergio Amigon</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">CEO, TechStart Solutions</p>
-                </div>
-              </div>
+              <div className="h-2 mb-1" style={{ color: 'var(--accent)' }}>+300%</div>
+              <div className="body mb-6" style={{ color: 'var(--ink-mute)', fontSize: '0.85rem' }}>online bookings</div>
+              <Link href="/case-studies/flowga-yoga-studio" style={{ color: 'var(--accent)' }} className="body underline text-sm font-medium">
+                Read the full case study →
+              </Link>
             </div>
 
-            <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg">
-              <div className="flex text-yellow-400 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                "I was skeptical about a free audit, but this was incredibly valuable. 
-                They identified issues I never knew existed and provided clear action steps to fix them."
+            <div className="ds-card p-8">
+              <div className="eyebrow mb-3">Case Study</div>
+              <h3 className="h-3 mb-3">Amigo Contracting Services</h3>
+              <p className="body mb-6" style={{ color: 'var(--ink-dim)' }}>
+                Complete brand and web overhaul for a growing contracting business. Professional positioning,
+                improved lead capture, and a site that reflects the quality of their work.
               </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">SM</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">Sarah Mitchell</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Founder, Bloom Wellness</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg">
-              <div className="flex text-yellow-400 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                "The audit was so thorough and professional. It gave us a clear roadmap to improve our website 
-                and we've seen significant improvements in both performance and conversions."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">DC</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">David Chen</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Owner, Local Home Services</p>
-                </div>
-              </div>
+              <div className="h-2 mb-1" style={{ color: 'var(--accent)' }}>Full rebrand</div>
+              <div className="body mb-6" style={{ color: 'var(--ink-mute)', fontSize: '0.85rem' }}>web + brand identity</div>
+              <Link href="/case-studies/amigo-contracting-services" style={{ color: 'var(--accent)' }} className="body underline text-sm font-medium">
+                Read the full case study →
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-500 to-emerald-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Transform Your Website?
-          </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Get your free website audit checklist and discover exactly what's holding your website back from success.
+      <section className="py-20" style={{ background: 'var(--bg)' }}>
+        <div className="ds-container max-w-4xl text-center">
+          <h2 className="h-2 mb-6">Ready to Transform Your Website?</h2>
+          <p className="body-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--ink-dim)' }}>
+            Get your free website audit checklist and discover exactly what&apos;s holding your website back from success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#form" 
-              className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-lg"
-            >
+            <a href="#form" className="ds-btn ds-btn-primary">
               Get My Free Audit Now
             </a>
-            <Link 
-              href="/contact" 
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors text-lg"
-            >
+            <Link href="/contact" className="ds-btn ds-btn-ghost">
               Talk to an Expert
             </Link>
           </div>

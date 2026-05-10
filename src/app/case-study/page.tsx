@@ -2,9 +2,9 @@ import CaseStudy from "@/components/CaseStudy";
 
 export const metadata = {
   title: "Case Study: Flowga Yoga Studio | 300% Booking Increase | Webloft",
-  description: "See how we helped Flowga Yoga Studio increase online bookings by 300% with our Toronto web design services. Complete website redesign and mobile optimization.",
+  description: "See how we helped Flowga Yoga Studio increase online bookings by 300% with our web design services. Complete website redesign and mobile optimization.",
   alternates: {
-    canonical: 'https://webloftstudio.com/case-study'
+    canonical: 'https://webloftstudio.com/case-studies/flowga-yoga-studio'
   }
 };
 
